@@ -10,5 +10,6 @@
         <file>Game4.qml</file>
         <file>SliderLocation.qml</file>
         <file>Final.qml</file>
+        <file>Promt.qml</file>
     </qresource>
 </RCC>

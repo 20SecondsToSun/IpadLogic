@@ -52,7 +52,15 @@ Window {
             {
                 start();
             }
+
+            promt.show(currentLocation);
+
         }
+    }
+
+    Promt
+    {
+        id:promt
     }
 
     Menu
@@ -81,6 +89,7 @@ Window {
         videoPlayer.visible = true;
         pageLoader.source = model[currentLocation].name;
         canInteract = false;
+        promt.hide();
     }
 
     function nextLocation(id)
@@ -92,6 +101,7 @@ Window {
         currentLocation = id;
         canInteract = false;
         pageLoader.item.clean();
+        promt.hide();
 
         if(id === 0)
         {
