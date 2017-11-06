@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
+import QtSensors 5.0
 
 Item {
     id:root
@@ -9,11 +10,33 @@ Item {
     {
         width:root.width;
         height:root.height;
-        color:"yellow";
+        color:"white";
     }
 
     function clean()
     {
        console.log("clean---------");
+    }
+
+    Text
+    {
+       text: "Gyro values: "
+       font.family: "Helvetica"
+       font.pointSize: 24
+       color: "red"
+       id:gyroValues;
+       anchors.centerIn: parent;
+    }
+
+    Gyroscope
+    {
+        id: gyro
+        active: true
+        alwaysOn: true
+
+        onReadingChanged:
+        {
+            gyroValues.text = "x: " + reading.x + " y: " + reading.y + " z: " + reading.z;
+        }
     }
 }
