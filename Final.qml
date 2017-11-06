@@ -9,8 +9,16 @@ Item {
     {
         width:root.width;
         height:root.height;
-        color:"yellow";
+        color:"black";
     }
+
+    Button {
+           text: "GoHome"
+           onClicked: root.gameFinished(6)
+           x:300;
+           y:200;
+           anchors.centerIn: parent;
+       }
 
     function clean()
     {

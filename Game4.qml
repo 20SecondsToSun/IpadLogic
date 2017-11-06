@@ -4,12 +4,12 @@ import QtQuick.Controls 2.0
 Item {
     id:root
     signal gameFinished(int id);
+
     Image {
         fillMode: Image.PreserveAspectFit
-        source: "qrc:/images/design/game3.jpg"
+        source: "qrc:/images/design/game4.jpg"
         width:root.width;
-    }
-
+    }  
 
     function clean()
     {

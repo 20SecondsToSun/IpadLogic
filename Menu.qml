@@ -7,8 +7,14 @@ Item {
     signal skipClick;
     signal homeClick;
 
+    Row{
     Button {
-           text: "Ok"
+           text: "home"
+           onClicked: root.homeClick()
+       }
+    Button {
+           text: "skip"
            onClicked: root.skipClick()
        }
+    }
 }

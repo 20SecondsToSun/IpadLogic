@@ -1,8 +1,13 @@
 <RCC>
     <qresource prefix="/images">
         <file>design/1.png</file>
-    </qresource>
-    <qresource prefix="/">
+        <file>design/final.jpg</file>
+        <file>design/game2.jpg</file>
+        <file>design/game3.jpg</file>
+        <file>design/game4.jpg</file>
+        <file>design/slide1.jpg</file>
+        <file>design/slide2.jpg</file>
+        <file>design/slide3.jpg</file>
         <file>design/video.mp4</file>
     </qresource>
 </RCC>

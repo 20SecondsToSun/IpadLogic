@@ -3,16 +3,16 @@ import QtQuick.Controls 2.0
 
 Item {
     id:root
-    signal game2Finished;
+    signal gameFinished(int id);
+
     Image {
         fillMode: Image.PreserveAspectFit
-        source: "qrc:/images/design/1.png"
+        source: "qrc:/images/design/game2.jpg"
+        width:root.width;
     }
 
-    Button {
-           text: "Nextgame"
-           onClicked: root.game2Finished()
-           x:300;
-           y:200;
-       }
+    function clean()
+    {
+       console.log("clean---------");
+    }
 }

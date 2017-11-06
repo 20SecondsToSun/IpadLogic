@@ -7,5 +7,8 @@
         <file>Menu.qml</file>
         <file>Game2.qml</file>
         <file>Game3.qml</file>
+        <file>Game4.qml</file>
+        <file>SliderLocation.qml</file>
+        <file>Final.qml</file>
     </qresource>
 </RCC>
