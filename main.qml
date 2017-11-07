@@ -13,7 +13,7 @@ Window {
     property var model :
         [
             {name:"Intro.qml", timecode: 1500},
-            {name:"Game1.qml", timecode: 3500},
+            {name:"Game2.qml", timecode: 3500},
             {name:"Game2.qml", timecode: 4500},
             {name:"Game3.qml", timecode: 5500},
             {name:"Game4.qml", timecode: 6500},
@@ -115,5 +115,7 @@ Window {
             videoPlayer.playTo(model[currentLocation].timecode);
             videoPlayer.visible = true;
         }
+
+        pageLoader.item.start();
     }
 }

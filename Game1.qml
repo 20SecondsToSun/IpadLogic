@@ -18,6 +18,11 @@ Item {
        console.log("clean---------");
     }
 
+    function start()
+    {
+
+    }
+
     Text
     {
        text: "Gyro values: "

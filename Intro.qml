@@ -5,7 +5,8 @@ Item {
     id:root
     signal gameFinished(int id);
 
-    Image {
+    Image
+    {
         fillMode: Image.PreserveAspectFit
         source: "qrc:/images/design/1.png"
         width:root.width;
@@ -14,13 +15,14 @@ Item {
         anchors.baselineOffset: 100;
     }
 
-    Button {
-           text: "Next"
-           onClicked: root.gameFinished(0)
-           x:300;
-           y:200;
-           anchors.centerIn: parent;
-       }
+    Button
+    {
+       text: "Next"
+       onClicked: root.gameFinished(0)
+       x:300;
+       y:200;
+       anchors.centerIn: parent;
+    }
 
     function clean()
     {
