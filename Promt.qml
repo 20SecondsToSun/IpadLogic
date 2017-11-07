@@ -13,7 +13,8 @@ Item
          {name:"qrc:/images/design/promts/promt2.png", x: 150, y :250},
          {name:"qrc:/images/design/promts/promt3.png", x: 300, y :400},
          {name:"qrc:/images/design/promts/promt4.png", x: 100, y :200},
-         {name:"qrc:/images/design/promts/promt5.png", x: 100, y :200}
+         {name:"qrc:/images/design/promts/promt5.png", x: 100, y :200},
+         {name:"", x: 100, y :200}
     ];
 
     Image
@@ -23,21 +24,28 @@ Item
         width:300;
     }
 
+    PropertyAnimation {id: inAnimation; target: promt; properties: "opacity"; to: "1"; duration: 1000}
+    PropertyAnimation {id: outAnimation; target: promt; properties: "opacity"; to: "0"; duration: 100}
+
+
     function hide()
     {
         timer.running = false;
-        root.visible = false;
+        //root.visible = false;
+        outAnimation.start();
     }
 
     function show(id)
     {
        if(model[id].name !== "")
        {
+           promt.opacity = 0;
            promt.x = model[id].x;
            promt.y = model[id].y;
            promt.source = model[id].name;
            root.visible = true;
            timer.running = true;
+           inAnimation.start();
        }
     }
 
@@ -49,7 +57,7 @@ Item
         repeat: false
         onTriggered:
         {
-           root.visible = false;
+          hide();
         }
     }
 }

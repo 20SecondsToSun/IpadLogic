@@ -5,14 +5,11 @@ Item {
     id:root
     signal gameFinished(int id);
 
-    Image
+    Rectangle
     {
-        fillMode: Image.PreserveAspectFit
-        source: "qrc:/images/design/1.png"
         width:root.width;
-        anchors.horizontalCenter: parent;
-        anchors.bottom: parent.bottom;
-        anchors.baselineOffset: 100;
+        height:root.height;
+        color:"white";
     }
 
     Button
@@ -21,11 +18,16 @@ Item {
        onClicked: root.gameFinished(0)
        x:300;
        y:200;
-       anchors.centerIn: parent;
+       //anchors.centerIn: parent;
     }
 
     function clean()
     {
        console.log("clean---------");
+    }
+
+    function start()
+    {
+
     }
 }

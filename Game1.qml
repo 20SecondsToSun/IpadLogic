@@ -20,7 +20,8 @@ Item {
 
     function start()
     {
-
+        console.log("start gyro---------");
+        gyro.start();
     }
 
     Text
@@ -38,6 +39,8 @@ Item {
         id: gyro
         active: true
         alwaysOn: true
+
+
 
         onReadingChanged:
         {

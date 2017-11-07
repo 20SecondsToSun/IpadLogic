@@ -5,14 +5,20 @@ Item {
     id:root
     signal gameFinished(int id);
 
-    Image {
-        fillMode: Image.PreserveAspectFit
-        source: "qrc:/images/design/game4.jpg"
+    Rectangle
+    {
         width:root.width;
-    }  
+        height:root.height;
+        color:"yellow";
+    }
 
     function clean()
     {
        console.log("clean---------");
+    }
+
+    function start()
+    {
+
     }
 }

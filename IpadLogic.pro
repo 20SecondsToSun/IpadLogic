@@ -1,7 +1,8 @@
 TEMPLATE = app
 
-QT += qml quick
+QT += qml quick sensors multimedia multimediawidgets
 CONFIG += c++11
+
 
 SOURCES += main.cpp
 
@@ -28,4 +29,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
+
 !isEmpty(target.path): INSTALLS += target
+
+ios {
+    QMAKE_INFO_PLIST = $$PWD/ios/Info.plist
+
+    app_launch_images.files = $$PWD/ios/LaunchScreen.xib $$files($$PWD/ios/splash) $$files($$PWD/ios/icon)
+    QMAKE_BUNDLE_DATA += app_launch_images
+}

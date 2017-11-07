@@ -24,4 +24,8 @@ Item {
     {
        console.log("clean---------");
     }
+    function start()
+    {
+
+    }
 }

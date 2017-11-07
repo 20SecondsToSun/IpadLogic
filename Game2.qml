@@ -8,11 +8,12 @@ Item {
     property int numToKill: 3;
     property int killCont:0;
 
-    Image {
-        fillMode: Image.PreserveAspectFit
-        source: "qrc:/images/design/game2.jpg"
+    Rectangle
+    {
         width:root.width;
-    }    
+        height:root.height;
+        color:"red";
+    }
 
     Canvas
     {

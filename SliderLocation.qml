@@ -12,6 +12,24 @@ Item {
        console.log("clean---------");
     }
 
+    function start()
+    {
+
+    }
+
+    Rectangle
+    {
+        width:root.width;
+        height:root.height;
+        color:"cyan";
+//        MouseArea {
+//              anchors.fill: parent
+//              onClicked: {
+//                  console.log("touch");
+//              }
+//          }
+    }
+
     SwipeView {
         id: view
         currentIndex: 0
@@ -22,6 +40,7 @@ Item {
                Image {
                    fillMode: Image.PreserveAspectFit
                    source: "qrc:/images/design/slides/slide"+(index+1)+".png"
+                   asynchronous: true;
                    width:root.width;
                }
            }

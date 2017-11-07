@@ -12,5 +12,6 @@
         <file>Final.qml</file>
         <file>Promt.qml</file>
         <file>Capsule.qml</file>
+        <file>design/big_buck_bunny.mp4</file>
     </qresource>
 </RCC>
