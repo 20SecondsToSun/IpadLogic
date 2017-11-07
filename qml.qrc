@@ -11,5 +11,6 @@
         <file>SliderLocation.qml</file>
         <file>Final.qml</file>
         <file>Promt.qml</file>
+        <file>Capsule.qml</file>
     </qresource>
 </RCC>

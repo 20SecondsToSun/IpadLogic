@@ -8,43 +8,49 @@ Item
 
     property var model :
         [
-         {name:"qrc:/images/design/promt1.jpg", x: 100, y :200},
-         {name:"qrc:/images/design/promt1.jpg", x: 150, y :250},
-         {name:"qrc:/images/design/promt1.jpg", x: 100, y :200},
-         {name:"qrc:/images/design/promt1.jpg", x: 100, y :200}
+         {name:"", x: 100, y :200},
+         {name:"qrc:/images/design/promts/promt1.png", x: 100, y :200},
+         {name:"qrc:/images/design/promts/promt2.png", x: 150, y :250},
+         {name:"qrc:/images/design/promts/promt3.png", x: 300, y :400},
+         {name:"qrc:/images/design/promts/promt4.png", x: 100, y :200},
+         {name:"qrc:/images/design/promts/promt5.png", x: 100, y :200}
     ];
 
-    Rectangle
+    Image
     {
         id:promt;
-        width:200;
-        height:300;
-        color:"yellow";
+        fillMode: Image.PreserveAspectFit
+        width:300;
     }
 
     function hide()
     {
         timer.running = false;
-         root.visible = false;
+        root.visible = false;
     }
 
     function show(id)
     {
-        promt.x = model[id].x;
-        promt.y = model[id].y;
-        root.visible = true;
-        timer.running = true;
+       if(model[id].name !== "")
+       {
+           promt.x = model[id].x;
+           promt.y = model[id].y;
+           promt.source = model[id].name;
+           root.visible = true;
+           timer.running = true;
+       }
     }
 
-    Timer {
-            id:timer;
-            interval: 3000;
-            running: false;
-            repeat: false
-            onTriggered:
-            {
-               root.visible = false;
-            }
+    Timer
+    {
+        id:timer;
+        interval: 3000;
+        running: false;
+        repeat: false
+        onTriggered:
+        {
+           root.visible = false;
         }
+    }
 }
 

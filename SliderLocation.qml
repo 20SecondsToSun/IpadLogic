@@ -5,7 +5,7 @@ Item {
     id:root
     signal gameFinished(int id);
 
-    property int slidesNum:3;
+    property int slidesNum:4;
 
     function clean()
     {
@@ -21,7 +21,7 @@ Item {
                model: slidesNum
                Image {
                    fillMode: Image.PreserveAspectFit
-                   source: "qrc:/images/design/slide"+(index+1)+".jpg"
+                   source: "qrc:/images/design/slides/slide"+(index+1)+".png"
                    width:root.width;
                }
            }
