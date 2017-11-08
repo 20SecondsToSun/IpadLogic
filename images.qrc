@@ -28,5 +28,7 @@
         <file>design/game1/mid.png</file>
         <file>design/game1/top.png</file>
         <file>design/logic2.mp4</file>
+        <file>design/game3/Check2.png</file>
+        <file>design/game3/Fluid1.png</file>
     </qresource>
 </RCC>

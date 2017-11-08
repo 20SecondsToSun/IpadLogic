@@ -3,7 +3,6 @@ TEMPLATE = app
 QT += qml quick sensors multimedia multimediawidgets
 CONFIG += c++11
 
-
 SOURCES += main.cpp
 
 RESOURCES += qml.qrc \

@@ -26,25 +26,18 @@ Item {
 
     Text
     {
-       text: "Gyro values: "
+       //text: "Gyro values: "
        font.family: "Helvetica"
        font.pointSize: 24
        color: "red"
        id:gyroValues;
        anchors.centerIn: parent;
+       text: "X Rotation: " + tilt.reading.xRotation.toFixed(2) + " Y Rotation: " + tilt.reading.yRotation.toFixed(2) ;//+ " Z Rotation: " + tilt.reading.zRotation.toFixed(2);
     }
 
-    Gyroscope
-    {
-        id: gyro
+    TiltSensor {
+        id: tilt
         active: true
-        alwaysOn: true
-
-
-
-        onReadingChanged:
-        {
-            gyroValues.text = "x: " + reading.x + " y: " + reading.y + " z: " + reading.z;
-        }
     }
+
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.4.1, 2017-11-08T13:50:20. -->
+<!-- Written by QtCreator 4.4.1, 2017-11-08T17:50:51. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -394,7 +394,7 @@
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
     <value type="bool" key="Ios.AutoManagedSigning">true</value>
-    <value type="QString" key="Ios.SigningIdentifier"></value>
+    <value type="QString" key="Ios.SigningIdentifier">723J675X5K</value>
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/Users/arseniy/Documents/qt/build-IpadLogic-Qt_5_9_2_for_iOS_5d73ec-Release</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
@@ -521,7 +521,7 @@
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
-      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Установить на iPhone (Yuri)</value>
+      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Установить на Ольга Черноусова’s iPad</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.IosDeployStep</value>
      </valuemap>
@@ -583,8 +583,8 @@
      <value type="int" key="type">0</value>
     </valuemap>
     <value type="QString" key="Ios.run_arguments"></value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Запуск на iPhone (Yuri)</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Запуск IpadLogic на iPhone (Yuri)</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Запуск на Ольга Черноусова’s iPad</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Запуск IpadLogic на Ольга Черноусова’s iPad</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.IosRunConfiguration:/Users/arseniy/Documents/qt/logic/IpadLogic.pro</value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
