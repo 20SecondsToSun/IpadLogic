@@ -30,13 +30,16 @@ Item {
            anchors.topMargin: 65* tool.getScale();
            width:homeimg.width;
            height:homeimg.height;
-           opacity:0.3;
+           opacity:0;
        }
     Row{
 
-    Button {
-           text: "skip"
-           onClicked: root.skipClick()
+    Button
+    {
+           width:200;
+           height:200;
+           opacity: 0.5;
+           onClicked: root.skipClick();
        }
     }
 

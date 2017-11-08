@@ -20,15 +20,15 @@
         <file>design/promts/promt3.png</file>
         <file>design/promts/promt4.png</file>
         <file>design/promts/promt5.png</file>
-        <file>design/video.mp4</file>
-        <file>design/SampleVideo_1280x720_1mb.mp4</file>
         <file>design/empty.png</file>
         <file>design/slides/slide8.png</file>
         <file>design/game1/bot.png</file>
         <file>design/game1/mid.png</file>
         <file>design/game1/top.png</file>
-        <file>design/logic2.mp4</file>
         <file>design/game3/Check2.png</file>
         <file>design/game3/Fluid1.png</file>
+        <file>design/mainvid.mp4</file>
+        <file>design/game3Overlay.png</file>
+        <file>design/game4Overlay.png</file>
     </qresource>
 </RCC>

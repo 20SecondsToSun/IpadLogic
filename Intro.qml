@@ -3,17 +3,10 @@ import QtQuick.Controls 2.0
 
 Item {
     id:root
-    width:parent.width;
-    height:parent.height;
+   // width:parent.width;
+    //height:parent.height;
 
      signal gameFinished(int id);
-
-    Rectangle
-    {
-        width:root.width;
-        height:root.height;
-        color:"white";
-    }
 
     Button
     {
@@ -24,7 +17,7 @@ Item {
        height:200;
        anchors.horizontalCenter: root.horizontalCenter
        anchors.verticalCenter: root.verticalCenter
-       anchors.verticalCenterOffset: 100;
+       anchors.verticalCenterOffset: 250;
     }
 
     function clean()

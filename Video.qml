@@ -17,7 +17,7 @@ Item {
     MediaPlayer {
             id: video
 
-            source: "qrc:/images/design/logic2.mp4"
+            source: "qrc:/images/design/mainvid.mp4"
         }
 
     VideoOutput {
@@ -25,7 +25,8 @@ Item {
           source: video
           width:1024
           height : 768
-          opacity:0.4
+          opacity:1.
+
       }
 
 //    Image
@@ -39,14 +40,25 @@ Item {
     function init(ms)
     {
        video.seek(0);
-        timer.running = true;
+       timer.running = true;
 
        timer.interval = (ms);
-        video.play();
+       video.play();
+    }
+
+    function seekTo(ms)
+    {
+        console.log("seek  "+ ms);
+
+        if(ms == -1)
+            return;
+
+        video.seek(ms);
     }
 
     function playTo(ms)
     {
+        console.log("ms  "+ ms,"position: "+ video.position);
         if(ms - video.position > 0)
         {
             timer.running = true;

@@ -5,12 +5,6 @@ Item {
     id:root
     signal gameFinished(int id);
 
-    Rectangle
-    {
-        width:root.width;
-        height:root.height;
-        color:"black";
-    }
 
     Button {
            text: "GoHome"

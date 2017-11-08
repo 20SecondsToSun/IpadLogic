@@ -12,14 +12,14 @@ Window {
 
     property var model :
     [
-            {name:"Intro.qml", timecode: 1500},
-            {name:"Game3.qml", timecode: 3500},
-            {name:"Game2.qml", timecode: 4500},
-            {name:"Game3.qml", timecode: 5500},
-            {name:"Game4.qml", timecode: 6500},
-            {name:"SliderLocation.qml", timecode: 8500},
-            {name:"Final.qml", timecode: 9500},
-            {name:"", timecode: 11500}
+            {name:"Intro.qml", timecode: 1200, seek: -1},
+            {name:"Game1.qml", timecode: 5100, seek: -1},
+            {name:"Game2.qml", timecode: 7100, seek: 5100},
+            {name:"Game3.qml", timecode: 13700, seek: -1},
+            {name:"Game4.qml", timecode: 16100, seek: -1},
+            {name:"SliderLocation.qml", timecode: 21000, seek: -1},
+            {name:"Final.qml", timecode: 25000, seek: 22000},
+            {name:"", timecode: 27000, seek: -1}
     ];
 
     Connections
@@ -30,12 +30,7 @@ Window {
 
     Component.onCompleted: start();
 
-    Loader
-    {
-       id: pageLoader
-       width:parent.width;
-       height:parent.height;
-    }
+
 
     Video
     {
@@ -43,9 +38,9 @@ Window {
         onVideoPaused:
         {
             canInteract = true;
-            if(currentLocation == 1 || currentLocation == 5)
+            if(/*currentLocation == 1 || */currentLocation == 5)
             {
-                videoPlayer.visible = false;
+               // videoPlayer.visible = false;
             }
 
             if(currentLocation == 7)
@@ -56,6 +51,13 @@ Window {
             promt.show(currentLocation);
 
         }
+    }
+
+    Loader
+    {
+       id: pageLoader
+       width:parent.width;
+       height:parent.height;
     }
 
     Promt
@@ -116,6 +118,7 @@ Window {
                 pageLoader.source = model[currentLocation].name;
             }
 
+            videoPlayer.seekTo(model[currentLocation].seek);
             videoPlayer.playTo(model[currentLocation].timecode);
             videoPlayer.visible = true;
         }

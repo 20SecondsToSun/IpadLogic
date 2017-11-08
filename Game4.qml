@@ -7,40 +7,30 @@ Item {
     height:parent.height;
     signal gameFinished(int id);
 
+    property int timecodeForStart: 3900;
+
     property int clickNum:0;
     property int clickToWin:5;
-    property int widthIncrement: 50;
+    property int widthIncrement: 80;
     property int startWidth: 100;
-    property int endWidth: 350;
+    property int endWidth: 590;
     property int currentWIdth;
     property bool lastClick:false;
 
-    Rectangle
-    {
-        width:root.width;
-        height:root.height;
-        color:"gray";
-    }
 
     Rectangle
     {
          id:circle;
          width: startWidth
          height: width
-         color: "red"
+         color: "#b0c1cb"
          radius: width*0.5;
-         x:200;
-         y:200;
+         x:696*tool.getScale() - width*0.5;
+         y:762*tool.getScale() - width*0.5;
+         opacity:0;
     }
 
-    Rectangle
-    {
-         color: "white"
-         x:250;
-         y:250;
-         width: 6
-         height: width
-    }
+    PropertyAnimation {id: opacityAnim; target: circle; properties: "opacity"; to: "1"; duration: 500}
 
     PropertyAnimation {id: widthAnim; target: circle; properties: "width"; to: "200"; duration: 300}
     PropertyAnimation {id: xAnim; target: circle; properties: "x"; to: "200"; duration: 300}
@@ -60,6 +50,7 @@ Item {
        height: 500;
        anchors.verticalCenter: root.verticalCenter
        anchors.right: root.right;
+       opacity:0.2
     }
 
     function clickBRB()
@@ -92,12 +83,14 @@ Item {
     {
         onOutTimer.stop();
         timer.stop();
+        timerShow.running = false;
     }
 
     function start()
     {
         currentWIdth = circle.width;
         lastClick = false;
+        timerShow.running = true;
     }
 
     Timer
@@ -109,6 +102,18 @@ Item {
         onTriggered:
         {
              gameFinished(4);
+        }
+    }
+
+    Timer
+    {
+        id:timerShow;
+        interval: timecodeForStart;
+        running: false;
+        repeat: false;
+        onTriggered:
+        {
+            opacityAnim.start();
         }
     }
 
@@ -138,4 +143,10 @@ Item {
         xAnim.start();
         yAnim.start();
     }
+
+    Tools
+    {
+        id:tool;
+    }
+
 }

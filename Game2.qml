@@ -3,30 +3,27 @@ import QtQuick.Controls 2.0
 
 Item {
     id:root
+    width:parent.width;
+    height:parent.height;
+
+    property int gameId: 2;
     signal gameFinished(int id);
+
     property int size: 150;
     property int numToKill: 3;
     property int killCont:0;
     property int side: 0;
     property int sidesNum: 4;
 
-    Rectangle
-    {
-        width:root.width;
-        height:root.height;
-        color:"red";
-    }
-
     Canvas
     {
         id:canvas
-        width: parent.width
-        height: parent.height
+        width: root.width
+        height: root.height
     }
 
     function clean()
     {
-       console.log("clean---------", killCont);
        timer.running = false;
     }
 
@@ -49,7 +46,7 @@ Item {
     {
          if(++killCont > numToKill)
         {
-            gameFinished(2);
+            gameFinished(gameId);
         }
     }
 

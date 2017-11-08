@@ -6,6 +6,9 @@ Item {
     id:root
     signal gameFinished(int id);
 
+    property int timecodeForStart: 5000;
+
+
     property int slidesNum: 8;
     property var colors:
         [
@@ -21,24 +24,41 @@ Item {
 
     function clean()
     {
-
+        timer.running = false;
     }
 
     function start()
     {
+        timer.running = true;
+    }
 
+    Timer
+    {
+        id:timer;
+        interval: timecodeForStart;
+        running: false;
+        repeat: false;
+        onTriggered:
+        {
+            bg.opacity = 1;
+            view.opacity = 1;
+        }
     }
 
     PropertyAnimation {id: colorAnim1; target: color1; easing.type: Easing.Linear; properties: "color"; to: "0"; duration: 500}
     PropertyAnimation {id: colorAnim2; target: color2; easing.type: Easing.Linear; properties: "color"; to: "0"; duration: 500}
     PropertyAnimation {id: colorAnim3; target: color3; easing.type: Easing.Linear; properties: "color"; to: "0"; duration: 500}
 
+    PropertyAnimation {id: opacityAnim1; target: bg; properties: "opacity"; to: "1"; duration: 500}
+    PropertyAnimation {id: opacityAnim2; target: view; properties: "opacity"; to: "1"; duration: 500}
+
+
     Rectangle
     {
         id:bg
         width:root.width;
         height:root.height;
-        //color: colors[0];
+        opacity:0
 
         LinearGradient {
                 anchors.fill: parent
@@ -56,6 +76,7 @@ Item {
         id: view
         currentIndex: 0
         anchors.fill: parent
+        opacity:0;
 
         Repeater {
                model: slidesNum
