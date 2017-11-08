@@ -7,6 +7,7 @@ Item {
     property int size: 150;
     property int numToKill: 3;
     property int killCont:0;
+    property int side: 0;
 
     Rectangle
     {
@@ -34,16 +35,14 @@ Item {
         killCont = 0;
     }
 
-    function spawnObjects(x, y)
+    function spawnObjects()
     {
         var component = Qt.createComponent("Capsule.qml");
-        var size = 100;//Math.min(bg.width/2.2, 500);
-        var sprite = component.createObject(canvas,
-                                            {"x": x - size*0.5,
-                                             "y": y - size*0.5,
-                                             "size":size, "_parent": root});
+        var sprite = component.createObject(canvas, { "_parent": root});
 
-    }
+        var id = (side++) % 4;
+        sprite.start(id);
+  }
 
     function onKilled()
     {
@@ -61,7 +60,10 @@ Item {
         repeat: true;
         onTriggered:
         {
-          spawnObjects(root.width*Math.random(), root.height*Math.random());
+
+          spawnObjects();
         }
     }
+
+
 }

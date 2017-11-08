@@ -3,7 +3,10 @@ import QtQuick.Controls 2.0
 
 Item {
     id:root
-    signal gameFinished(int id);
+    width:parent.width;
+    height:parent.height;
+
+     signal gameFinished(int id);
 
     Rectangle
     {
@@ -14,11 +17,14 @@ Item {
 
     Button
     {
-       text: "Next"
        onClicked: root.gameFinished(0)
-       x:300;
+       x:100;
        y:200;
-       //anchors.centerIn: parent;
+       width:200;
+       height:200;
+       anchors.horizontalCenter: root.horizontalCenter
+       anchors.verticalCenter: root.verticalCenter
+       anchors.verticalCenterOffset: 100;
     }
 
     function clean()

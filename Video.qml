@@ -17,7 +17,7 @@ Item {
     MediaPlayer {
             id: video
 
-            source: "qrc:/design/big_buck_bunny.mp4"
+            source: "qrc:/images/design/logic2.mp4"
         }
 
     VideoOutput {

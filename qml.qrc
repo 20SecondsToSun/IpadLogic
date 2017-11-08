@@ -13,5 +13,6 @@
         <file>Promt.qml</file>
         <file>Capsule.qml</file>
         <file>design/big_buck_bunny.mp4</file>
+        <file>Tools.qml</file>
     </qresource>
 </RCC>

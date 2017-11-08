@@ -9,11 +9,11 @@ Item
     property var model :
         [
          {name:"", x: 100, y :200},
-         {name:"qrc:/images/design/promts/promt1.png", x: 100, y :200},
-         {name:"qrc:/images/design/promts/promt2.png", x: 150, y :250},
-         {name:"qrc:/images/design/promts/promt3.png", x: 300, y :400},
-         {name:"qrc:/images/design/promts/promt4.png", x: 100, y :200},
-         {name:"qrc:/images/design/promts/promt5.png", x: 100, y :200},
+         {name:"qrc:/images/design/promts/promt1.png", x: 1206, y :409},
+         {name:"qrc:/images/design/promts/promt2.png", x: 1472, y :892},
+         {name:"qrc:/images/design/promts/promt3.png", x: 924,  y :848},
+         {name:"qrc:/images/design/promts/promt4.png", x: 1351, y :698},
+         {name:"qrc:/images/design/promts/promt5.png", x: 840,  y :1235},
          {name:"", x: 100, y :200}
     ];
 
@@ -21,7 +21,7 @@ Item
     {
         id:promt;
         fillMode: Image.PreserveAspectFit
-        width:300;
+        width: sourceSize.width * tool.getScale();
     }
 
     PropertyAnimation {id: inAnimation; target: promt; properties: "opacity"; to: "1"; duration: 1000}
@@ -40,8 +40,8 @@ Item
        if(model[id].name !== "")
        {
            promt.opacity = 0;
-           promt.x = model[id].x;
-           promt.y = model[id].y;
+           promt.x = model[id].x* tool.getScale();
+           promt.y = model[id].y* tool.getScale();
            promt.source = model[id].name;
            root.visible = true;
            timer.running = true;
@@ -59,6 +59,10 @@ Item
         {
           hide();
         }
+    }
+
+    Tools{
+        id:tool;
     }
 }
 
