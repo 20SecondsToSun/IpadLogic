@@ -38,7 +38,7 @@ Item {
         id:bg
         width:root.width;
         height:root.height;
-        color: colors[0];
+        //color: colors[0];
 
         LinearGradient {
                 anchors.fill: parent

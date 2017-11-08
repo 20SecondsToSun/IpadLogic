@@ -8,6 +8,7 @@ Item {
     property int numToKill: 3;
     property int killCont:0;
     property int side: 0;
+    property int sidesNum: 4;
 
     Rectangle
     {
@@ -40,7 +41,7 @@ Item {
         var component = Qt.createComponent("Capsule.qml");
         var sprite = component.createObject(canvas, { "_parent": root});
 
-        var id = (side++) % 4;
+        var id = (side++) % sidesNum;
         sprite.start(id);
   }
 
