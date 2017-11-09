@@ -5,6 +5,7 @@ Item {
     id:root
 
     signal gameFinished(int id);
+    signal startFinishing();
     property int gameId: 6;
 
     Button {
@@ -12,9 +13,10 @@ Item {
            height:400;
            anchors.horizontalCenter: root.horizontalCenter
            anchors.verticalCenter: root.verticalCenter
-           opacity:0.2
+           opacity:0.
            onClicked:
            {
+               root.startFinishing()
                root.gameFinished(gameId)
            }
        }
@@ -23,7 +25,13 @@ Item {
     {
        console.log("clean---------");
     }
+
     function start()
+    {
+        console.log("final location---------");
+    }
+
+    function finish()
     {
 
     }

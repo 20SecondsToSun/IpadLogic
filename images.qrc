@@ -30,5 +30,7 @@
         <file>design/mainvid.mp4</file>
         <file>design/game3Overlay.png</file>
         <file>design/game4Overlay.png</file>
+        <file>design/WhiteBGimg.png</file>
+        <file>design/slides/slide9.png</file>
     </qresource>
 </RCC>

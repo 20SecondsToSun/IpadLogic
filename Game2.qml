@@ -3,11 +3,10 @@ import QtQuick.Controls 2.0
 
 Item {
     id:root
-    width:parent.width;
-    height:parent.height;
 
     property int gameId: 2;
     signal gameFinished(int id);
+    signal startFinishing();
 
     property int size: 150;
     property int numToKill: 3;
@@ -30,14 +29,19 @@ Item {
     function clean()
     {
        timer.running = false;
+       timerForStart.running = false;
        promt.hide();
     }
 
     function start()
     {
-        timer.running = true;
-        killCont = 0;
-        promt.show(gameId);
+        timerForStart.running = true;
+    }
+
+    function finish()
+    {
+        startFinishing();
+        gameFinished(gameId);
     }
 
     function spawnObjects()
@@ -51,16 +55,30 @@ Item {
 
     function onKilled()
     {
-         if(++killCont > numToKill)
+        if(++killCont > numToKill)
         {
-            gameFinished(gameId);
+            finish();
+        }
+    }
+
+    Timer
+    {
+        id:timerForStart;
+        interval: 1000;
+        running: false;
+        repeat: false;
+        onTriggered:
+        {
+            timer.running = true;
+            killCont = 0;
+            promt.show(gameId);
         }
     }
 
     Timer
     {
         id:timer;
-        interval: 2000;
+        interval: 2500;
         running: false;
         repeat: true;
         onTriggered:

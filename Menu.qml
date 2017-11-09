@@ -38,7 +38,7 @@ Item {
     {
            width:200;
            height:200;
-           opacity: 0.5;
+           opacity: 0.0;
            onClicked: root.skipClick();
        }
     }

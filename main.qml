@@ -9,28 +9,60 @@ Window {
 
     property bool canInteract:false;
     property int currentLocation: 0;
+    property bool wasSleep:false;
 
     property var model :
     [
-            {name:"Intro.qml", timecode: 1200, seek: -1},
-            {name:"Game1.qml", timecode: 5100, seek: -1},
-            {name:"Game2.qml", timecode: 7100, seek: 5100},
-            {name:"Game3.qml", timecode: 13700, seek: -1},
-            {name:"Game4.qml", timecode: 16100, seek: -1},
-            {name:"SliderLocation.qml", timecode: 21000, seek: -1},
-            {name:"Final.qml", timecode: 25000, seek: 22000},
-            {name:"", timecode: 27000, seek: -1}
+            {name:"Intro.qml", timecode: 1300, seek: -1},
+            {name:"Game1.qml", timecode: 6100, seek: -1},
+            {name:"Game2.qml", timecode: 9100, seek: -1},
+            {name:"Game3.qml", timecode: 15800, seek: -1},
+            {name:"Game4.qml", timecode: 18400, seek: -1},
+            {name:"SliderLocation.qml", timecode: 23000, seek: -1},
+            {name:"Final.qml", timecode: 27000, seek: -1},
+            {name:"", timecode: 29000, seek: -1}
     ];
+
+    Connections {
+       target: Qt.application
+       onStateChanged: {
+          if(Qt.application.state === Qt.ApplicationActive)
+          {
+              if(wasSleep && currentLocation == 0)
+              {
+                  wasSleep = false;
+                  pageLoader.item.clean();
+                  start();
+              }
+          }
+          else
+          {
+              wasSleep = true;
+          }
+       }
+    }
 
     Connections
     {
        target: pageLoader.item
        onGameFinished: nextLocation(id+1);
+       onStartFinishing:
+       {
+           playVideo();
+       }
     }
 
     Component.onCompleted:
     {
         console.log("onCompleted");
+    }
+
+    Image
+    {
+        id:bg;
+        fillMode: Image.PreserveAspectFit
+        source:"qrc:/images/design/WhiteBGimg.png"
+        width: sourceSize.width * tool.getScale();
     }
 
     Video
@@ -39,16 +71,10 @@ Window {
         onVideoPaused:
         {
             canInteract = true;
-            if(/*currentLocation == 1 || */currentLocation == 5)
-            {
-               // videoPlayer.visible = false;
-            }
-
             if(currentLocation == 7)
             {
                 start();
             }
-
         }
 
         onVideoLoaded:
@@ -64,6 +90,14 @@ Window {
        height:parent.height;
     }
 
+    function playVideo()
+    {
+        currentLocation++;
+        console.log("currentLocation ----------  ", currentLocation);
+        videoPlayer.playTo(model[currentLocation].timecode);
+        videoPlayer.visible = true;
+        canInteract = false;
+    }
 
     Menu
     {
@@ -71,13 +105,14 @@ Window {
         {
             if(canInteract)
             {
-               nextLocation(currentLocation + 1);
+               ///nextLocation(currentLocation + 1);
+                pageLoader.item.finish()
             }
         }
 
         onHomeClick:
         {
-            if(canInteract)
+            if(canInteract && currentLocation != 0)
             {
                 start();
             }
@@ -95,11 +130,6 @@ Window {
 
     function nextLocation(id)
     {
-        if(!canInteract)
-        {
-            return;
-        }
-
         currentLocation = id;
         canInteract = false;
 
@@ -113,14 +143,20 @@ Window {
         {
             if(model[currentLocation].name !== "")
             {
+                console.log(" start location  ", model[currentLocation].name);
                 pageLoader.source = model[currentLocation].name;
             }
 
-            videoPlayer.seekTo(model[currentLocation].seek);
-            videoPlayer.playTo(model[currentLocation].timecode);
-            videoPlayer.visible = true;
+           //videoPlayer.seekTo(model[currentLocation].seek);
+            //videoPlayer.playTo(model[currentLocation].timecode);
+           // videoPlayer.visible = true;
         }
 
         pageLoader.item.start();
+    }
+
+    Tools
+    {
+        id:tool
     }
 }

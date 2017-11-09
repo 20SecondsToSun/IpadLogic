@@ -3,21 +3,21 @@ import QtQuick.Controls 2.0
 
 Item {
     id:root
-    width:parent.width;
-    height:parent.height;
+
+    signal startFinishing();
     signal gameFinished(int id);
+
     property int gameId:4;
-
-    property int timecodeForStart: 3900;
-
+    property int timecodeForStart: 1800;
     property int clickNum:0;
     property int clickToWin:5;
     property int widthIncrement: 80;
-    property int startWidth: 100;
-    property int endWidth: 590;
+    property int startWidth: 1;
+    property int endWidth: 595;
     property int currentWIdth;
     property bool lastClick:false;
 
+    property bool isFinished: false;
 
     Rectangle
     {
@@ -39,21 +39,28 @@ Item {
         source:"qrc:/images/design/game4Overlay.png"
         opacity:0;
     }
+    PropertyAnimation {id: splashOpacityAnim; target: splash; properties: "opacity"; to: "1"; duration: 500}
 
     PropertyAnimation {id: opacityAnim; target: circle; properties: "opacity"; to: "1"; duration: 500}
-
-    PropertyAnimation {id: widthAnim; target: circle; properties: "width"; to: "200"; duration: 300}
-    PropertyAnimation {id: xAnim; target: circle; properties: "x"; to: "200"; duration: 300}
-    PropertyAnimation {id: yAnim; target: circle; properties: "y"; to: "200"; duration: 300
+    PropertyAnimation {id: widthAnim; target: circle; properties: "width"; to: "200"; duration: 2000}
+    PropertyAnimation {id: xAnim; target: circle; properties: "x"; to: "200"; duration: 2000}
+    PropertyAnimation {id: yAnim; target: circle; properties: "y"; to: "200"; duration: 2000
         onStopped:
         {
-            if(lastClick)
+            console.log("last click : ", lastClick, isFinished)
+
+            if(lastClick && !isFinished)
             {
+                isFinished = true;
                 onOutTimer.start();
+                root.startFinishing();
 
+              //  widthAnim.to = 1;
+               // widthAnim.start();
             }
+            if(lastClick)
+                startAnimation(startWidth, 300)
         }}
-
 
     Promt
     {
@@ -67,23 +74,19 @@ Item {
        height: 500;
        anchors.verticalCenter: root.verticalCenter
        anchors.right: root.right;
-       opacity:0.2
+       opacity:0.
     }
 
     function clickBRB()
     {
+        console.log("clickBRB : ", lastClick)
         if(lastClick)
         {
             return;
         }
 
-        currentWIdth += widthIncrement;
-        var nextWidth = currentWIdth;
-
-
         if(++clickNum > clickToWin)
         {
-            nextWidth = endWidth;
             lastClick = true;
             timer.stop();
         }
@@ -93,7 +96,10 @@ Item {
             timer.running = true;
         }
 
-        startAnimation(nextWidth);
+        if(clickNum == 1)
+        {
+            startAnimation(endWidth, 2000);
+        }
     }
 
     function clean()
@@ -106,9 +112,17 @@ Item {
 
     function start()
     {
+        clickNum = 0;
         currentWIdth = circle.width;
         lastClick = false;
         timerShow.running = true;
+        isFinished = false;
+    }
+
+    function finish()
+    {
+        root.startFinishing();
+        onOutTimer.start();
     }
 
     Timer
@@ -133,8 +147,9 @@ Item {
         onTriggered:
         {
             opacityAnim.start();
+            splashOpacityAnim.start();
             promt.show(gameId);
-            splash.opacity = 1;
+            //splash.opacity = 1;
         }
     }
 
@@ -146,19 +161,25 @@ Item {
         repeat: false;
         onTriggered:
         {
-          clickNum = 0;
-
-          currentWIdth = startWidth;
-          var nextWidth = startWidth;
-          startAnimation(nextWidth);
+            if(!lastClick)
+            {
+                clickNum = 0;
+                startAnimation(startWidth, 300);
+            }
         }
     }
 
-    function startAnimation(_width)
+    function startAnimation(_width, dur)
     {
         widthAnim.to = _width;
         xAnim.to = circle.x - _width/2 + circle.width/2;
         yAnim.to = circle.y - _width/2 + circle.width/2;
+
+        xAnim.duration = yAnim.duration = widthAnim.duration = dur;
+
+        widthAnim.stop();
+        xAnim.stop();
+        yAnim.stop();
 
         widthAnim.start();
         xAnim.start();

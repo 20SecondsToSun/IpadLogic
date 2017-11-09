@@ -3,14 +3,14 @@ import QtQuick.Controls 2.0
 
 Item {
     id:root
-   // width:parent.width;
-    //height:parent.height;
 
+     property int gameId: 0;
      signal gameFinished(int id);
+     signal startFinishing();
 
     Button
     {
-       onClicked: root.gameFinished(0)
+       onClicked: root.finish()
        x:100;
        y:200;
        width:200;
@@ -18,6 +18,7 @@ Item {
        anchors.horizontalCenter: root.horizontalCenter
        anchors.verticalCenter: root.verticalCenter
        anchors.verticalCenterOffset: 250;
+       opacity:0
     }
 
     function clean()
@@ -28,5 +29,11 @@ Item {
     function start()
     {
 
+    }
+
+    function finish()
+    {
+        root.startFinishing()
+        root.gameFinished(gameId);
     }
 }
