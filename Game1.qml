@@ -5,9 +5,6 @@ import QtSensors 5.0
 Item {
     id:root
 
-    //width:parent.width;
-    //height:parent.height;
-
     property int gameId: 1;
     signal gameFinished(int id);
     property int timecodeForStart: 3700;
@@ -15,6 +12,7 @@ Item {
     function clean()
     {
         timer.stop();
+        promt.hide();
     }
 
     function start()
@@ -33,6 +31,7 @@ Item {
             opacityAnim1.start();
             opacityAnim2.start();
             opacityAnim3.start();
+            promt.show(gameId);
         }
     }
 
@@ -82,6 +81,11 @@ Item {
         x:650;
         y:200;
         opacity:0;
+    }
+
+    Promt
+    {
+        id:promt
     }
 
     TiltSensor

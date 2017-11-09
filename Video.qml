@@ -4,38 +4,39 @@ import QtMultimedia 5.8
 Item {
     id:root;
     signal videoPaused;
+    signal videoLoaded;
     property int seqNum:0;
 
-//    Video {
-//        id: video
-//        width : 1024
-//        height : 768
-//        source: "qrc:/images/design/video.mp4"
-//        opacity:0.4
-//    }
+    Component.onCompleted:
+    {
+        console.log("video loaded");
+        preInitTimer.running = true;
+    }
+
+    Timer
+    {
+        id:preInitTimer;
+        interval: 1000;
+        running: false;
+        repeat: false;
+        onTriggered:
+        {
+          root.videoLoaded();
+        }
+    }
 
     MediaPlayer {
             id: video
-
             source: "qrc:/images/design/mainvid.mp4"
         }
 
     VideoOutput {
-         // anchors.fill: parent
           source: video
           width:1024
           height : 768
           opacity:1.
 
       }
-
-//    Image
-//    {
-//       id:vidseq;
-//       source: "qrc:/images/design/jpgSequnce/logic010.jpg"
-//       fillMode: Image.PreserveAspectFit
-//       width:1024
-//    }
 
     function init(ms)
     {
@@ -50,7 +51,7 @@ Item {
     {
         console.log("seek  "+ ms);
 
-        if(ms == -1)
+        if(ms === -1)
             return;
 
         video.seek(ms);
@@ -75,16 +76,7 @@ Item {
             repeat: false
             onTriggered:
             {
-                console.log("video finished");
-//                var start = "qrc:/images/design/jpgSequnce/logic";
-//                seqNum++;
-//                if(seqNum >= 520) seqNum = 0;
-//                if(seqNum < 10) start += "00";
-//                else if(seqNum < 100) start+="0";
-//                 start+=seqNum;
-
-//                vidseq.source = start + ".jpg";
-
+                console.log("video finished on :", video.position);
                 video.pause();
                 root.videoPaused();
             }

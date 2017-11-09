@@ -6,6 +6,8 @@ Item
     id:root;
     visible:false;
 
+    property int timeToHide: 3000;
+
     property var model :
         [
          {name:"", x: 100, y :200},
@@ -31,7 +33,6 @@ Item
     function hide()
     {
         timer.running = false;
-        //root.visible = false;
         outAnimation.start();
     }
 
@@ -52,7 +53,7 @@ Item
     Timer
     {
         id:timer;
-        interval: 3000;
+        interval: timeToHide;
         running: false;
         repeat: false
         onTriggered:

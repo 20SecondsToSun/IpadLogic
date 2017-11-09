@@ -22,15 +22,22 @@ Item {
         height: root.height
     }
 
+    Promt
+    {
+        id:promt
+    }
+
     function clean()
     {
        timer.running = false;
+       promt.hide();
     }
 
     function start()
     {
         timer.running = true;
         killCont = 0;
+        promt.show(gameId);
     }
 
     function spawnObjects()
@@ -58,10 +65,7 @@ Item {
         repeat: true;
         onTriggered:
         {
-
           spawnObjects();
         }
     }
-
-
 }

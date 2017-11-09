@@ -3,15 +3,20 @@ import QtQuick.Controls 2.0
 
 Item {
     id:root
-    signal gameFinished(int id);
 
+    signal gameFinished(int id);
+    property int gameId: 6;
 
     Button {
-           text: "GoHome"
-           onClicked: root.gameFinished(6)
-           x:300;
-           y:200;
-           anchors.centerIn: parent;
+           width:400;
+           height:400;
+           anchors.horizontalCenter: root.horizontalCenter
+           anchors.verticalCenter: root.verticalCenter
+           opacity:0.2
+           onClicked:
+           {
+               root.gameFinished(gameId)
+           }
        }
 
     function clean()

@@ -5,6 +5,7 @@ import QtGraphicalEffects 1.0
 Item {
     id:root
     signal gameFinished(int id);
+    property int gameId: 5;
 
     property int timecodeForStart: 5000;
 
@@ -25,6 +26,7 @@ Item {
     function clean()
     {
         timer.running = false;
+         promt.hide();
     }
 
     function start()
@@ -42,6 +44,7 @@ Item {
         {
             bg.opacity = 1;
             view.opacity = 1;
+            promt.show(gameId);
         }
     }
 
@@ -98,10 +101,18 @@ Item {
                colorAnim2.start();
                colorAnim3.start();
 
+                promt.hide();
+
                if(slidesNum == currentIndex + 1)
                {
-                   gameFinished(5);
+                   gameFinished(gameId);
                }
             }
     }
+
+    Promt
+    {
+        id:promt
+    }
 }
+

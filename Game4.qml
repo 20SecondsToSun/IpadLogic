@@ -6,6 +6,7 @@ Item {
     width:parent.width;
     height:parent.height;
     signal gameFinished(int id);
+    property int gameId:4;
 
     property int timecodeForStart: 3900;
 
@@ -30,6 +31,15 @@ Item {
          opacity:0;
     }
 
+    Image
+    {
+        id:splash;
+        fillMode: Image.PreserveAspectFit
+        width:root.width;
+        source:"qrc:/images/design/game4Overlay.png"
+        opacity:0;
+    }
+
     PropertyAnimation {id: opacityAnim; target: circle; properties: "opacity"; to: "1"; duration: 500}
 
     PropertyAnimation {id: widthAnim; target: circle; properties: "width"; to: "200"; duration: 300}
@@ -40,8 +50,15 @@ Item {
             if(lastClick)
             {
                 onOutTimer.start();
+
             }
         }}
+
+
+    Promt
+    {
+        id:promt
+    }
 
     Button
     {
@@ -84,6 +101,7 @@ Item {
         onOutTimer.stop();
         timer.stop();
         timerShow.running = false;
+        promt.hide();
     }
 
     function start()
@@ -101,7 +119,8 @@ Item {
         repeat: false;
         onTriggered:
         {
-             gameFinished(4);
+            gameFinished(gameId);
+            splash.opacity = 0;
         }
     }
 
@@ -114,6 +133,8 @@ Item {
         onTriggered:
         {
             opacityAnim.start();
+            promt.show(gameId);
+            splash.opacity = 1;
         }
     }
 

@@ -37,6 +37,11 @@ Item {
          opacity:0;
     }
 
+    Promt
+    {
+        id:promt
+    }
+
     PropertyAnimation {id: rotAnim; target: fluidRot; properties: "angle"; to: "1"; duration: 300}
     PropertyAnimation {id: yAnim; target: fluid; properties: "y"; to: "1"; duration: 300}
 
@@ -54,6 +59,7 @@ Item {
     function clean()
     {
         timer.running = false;
+        promt.hide();
     }
 
     Timer
@@ -66,6 +72,7 @@ Item {
         {
             fluidAnim.start();
             splashAnim.start();
+            promt.show(gameId);
         }
     }
 

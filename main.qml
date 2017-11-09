@@ -28,9 +28,10 @@ Window {
        onGameFinished: nextLocation(id+1);
     }
 
-    Component.onCompleted: start();
-
-
+    Component.onCompleted:
+    {
+        console.log("onCompleted");
+    }
 
     Video
     {
@@ -48,8 +49,11 @@ Window {
                 start();
             }
 
-            promt.show(currentLocation);
+        }
 
+        onVideoLoaded:
+        {
+            start();
         }
     }
 
@@ -60,10 +64,6 @@ Window {
        height:parent.height;
     }
 
-    Promt
-    {
-        id:promt
-    }
 
     Menu
     {
@@ -91,7 +91,6 @@ Window {
         videoPlayer.visible = true;
         pageLoader.source = model[currentLocation].name;
         canInteract = false;
-        promt.hide();
     }
 
     function nextLocation(id)
@@ -105,7 +104,6 @@ Window {
         canInteract = false;
 
         pageLoader.item.clean();
-        promt.hide();
 
         if(id === 0)
         {
