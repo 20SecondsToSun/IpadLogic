@@ -31,6 +31,7 @@ Item {
             opacity: 0;
             onClicked:
             {
+                timer.running = false;
                 rotAnimation.stop();
                 xAnimation.stop();
                 yAnimation.stop();

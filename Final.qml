@@ -23,12 +23,12 @@ Item {
 
     function clean()
     {
-       console.log("clean---------");
+
     }
 
     function start()
     {
-        console.log("final location---------");
+
     }
 
     function finish()

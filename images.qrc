@@ -27,10 +27,15 @@
         <file>design/game1/top.png</file>
         <file>design/game3/Check2.png</file>
         <file>design/game3/Fluid1.png</file>
-        <file>design/mainvid.mp4</file>
         <file>design/game3Overlay.png</file>
         <file>design/game4Overlay.png</file>
         <file>design/WhiteBGimg.png</file>
         <file>design/slides/slide9.png</file>
+        <file>design/mainvid.mp4</file>
+        <file>design/end.mp4</file>
+        <file>design/qt_game1.png</file>
+        <file>design/qt_game2.png</file>
+        <file>design/qt_intro.png</file>
+        <file>design/qt_Game3_Liquid.png</file>
     </qresource>
 </RCC>

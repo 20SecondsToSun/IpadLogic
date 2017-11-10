@@ -14,6 +14,15 @@ Item {
     property int side: 0;
     property int sidesNum: 4;
 
+    Image
+    {
+        id:bg;
+        fillMode: Image.PreserveAspectFit
+        source: "qrc:/images/design/qt_game2.png"
+        width: root.width
+        opacity:0;
+    }
+
     Canvas
     {
         id:canvas
@@ -26,6 +35,9 @@ Item {
         id:promt
     }
 
+    PropertyAnimation {id: opacityAnim; target: bg; properties: "opacity"; to: "1"; duration: 500}
+
+
     function clean()
     {
        timer.running = false;
@@ -36,6 +48,7 @@ Item {
     function start()
     {
         timerForStart.running = true;
+        timer.running = true;
     }
 
     function finish()
@@ -64,12 +77,12 @@ Item {
     Timer
     {
         id:timerForStart;
-        interval: 1000;
+        interval: 2500;
         running: false;
         repeat: false;
         onTriggered:
         {
-            timer.running = true;
+            opacityAnim.start();
             killCont = 0;
             promt.show(gameId);
         }
@@ -78,7 +91,7 @@ Item {
     Timer
     {
         id:timer;
-        interval: 2500;
+        interval: 1500;
         running: false;
         repeat: true;
         onTriggered:

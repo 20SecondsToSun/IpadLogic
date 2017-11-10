@@ -8,7 +8,7 @@ Item {
     signal gameFinished(int id);
 
     property int gameId:4;
-    property int timecodeForStart: 1800;
+    property int timecodeForStart: 2300;
     property int clickNum:0;
     property int clickToWin:5;
     property int widthIncrement: 80;
@@ -47,16 +47,11 @@ Item {
     PropertyAnimation {id: yAnim; target: circle; properties: "y"; to: "200"; duration: 2000
         onStopped:
         {
-            console.log("last click : ", lastClick, isFinished)
-
             if(lastClick && !isFinished)
             {
                 isFinished = true;
                 onOutTimer.start();
                 root.startFinishing();
-
-              //  widthAnim.to = 1;
-               // widthAnim.start();
             }
             if(lastClick)
                 startAnimation(startWidth, 300)
@@ -79,7 +74,6 @@ Item {
 
     function clickBRB()
     {
-        console.log("clickBRB : ", lastClick)
         if(lastClick)
         {
             return;

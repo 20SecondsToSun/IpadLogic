@@ -49,17 +49,17 @@ Item {
 
     function seekTo(ms)
     {
-        console.log("seek  "+ ms);
-
-        if(ms === -1)
+       if(ms === -1)
             return;
 
+
+        video.pause();
         video.seek(ms);
     }
 
     function playTo(ms)
     {
-        console.log("ms  "+ ms,"position: "+ video.position);
+       // console.log("ms  "+ ms,"position: "+ video.position);
         if(ms - video.position > 0)
         {
             timer.running = true;
@@ -71,14 +71,13 @@ Item {
 
     Timer {
             id:timer;
-            interval: 1000/60;
             running: false;
             repeat: false
             onTriggered:
             {
-                console.log("video finished on :", video.position);
                 video.pause();
                 root.videoPaused();
+                console.log("stoped  ","position: "+ video.position);
             }
         }
 }

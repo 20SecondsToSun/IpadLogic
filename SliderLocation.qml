@@ -7,10 +7,7 @@ Item {
     signal gameFinished(int id);
     signal startFinishing();
     property int gameId: 5;
-
     property int timecodeForStart: 4000;
-
-
     property int slidesNum: 8;
     property var colors:
         [
@@ -21,7 +18,7 @@ Item {
         {c1:"#f6f1d0", c2: "#f4eeca", c3: "#b3af96"},
         {c1:"#f64146", c2: "#da2c31", c3: "#971619"},
         {c1:"#bb2655", c2: "#961a41", c3: "#65122c"},
-        {c1:"#f38917", c2: "#dd6513", c3: "#a33409"}
+        {c1:"#f38917", c2: "#ed7429", c3: "#a33409"}
     ];
 
     function clean()
@@ -128,9 +125,6 @@ Item {
                    root.startFinishing();
                    view.interactive = false;
                    timerOut.running = true;
-
-
-                  // gameFinished(gameId);
                }
             }
     }
@@ -138,7 +132,7 @@ Item {
     Timer
     {
         id:timerOut;
-        interval: 1500;
+        interval: 1000;
         running: false;
         repeat: false
         onTriggered:
@@ -152,4 +146,3 @@ Item {
         id:promt
     }
 }
-

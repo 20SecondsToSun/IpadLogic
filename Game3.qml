@@ -12,18 +12,17 @@ Item {
 
     property int yFinished: 630;
     property int angleThreshold: 10;
-    property int yIncr: 10;
-
-    property int timecodeForStart: 6300;
+    property int yIncr: 15;
+    property int timecodeForStart: 5900;
 
     Image
     {
         id:fluid;
         fillMode: Image.PreserveAspectFit
-        x:1568 *tool.getScale();
-        width: 128*tool.getScale();
-        y:794*tool.getScale();
-        height: 434 *tool.getScale();
+        x:1568 * tool.getScale();
+        y:794 * tool.getScale();
+        width: 128 * tool.getScale();
+        height: 434 * tool.getScale();
         source:"qrc:/images/design/game3/Fluid1.png"
         transform: Rotation {id: fluidRot; origin.x: fluid.width * 0.5; origin.y: 0; angle: 0}
         opacity:0;
@@ -34,10 +33,9 @@ Item {
         id:splash;
         fillMode: Image.PreserveAspectFit
         width:root.width;
-        source:"qrc:/images/design/game3Overlay.png"
+        source:"qrc:/images/design/qt_Game3_Liquid.png"
         opacity:0;
     }
-
 
     Promt
     {
@@ -46,21 +44,21 @@ Item {
 
     PropertyAnimation {id: rotAnim; target: fluidRot; properties: "angle"; to: "1"; duration: 300}
     PropertyAnimation {id: yAnim; target: fluid; properties: "y"; to: "1"; duration: 300}
+    PropertyAnimation {id: fluidAnim; target: fluid; properties: "opacity"; to: "1"; duration: 300}
+    PropertyAnimation {id: splashAnim; target: splash; properties: "opacity"; to: "1.0"; duration: 300;}
 
-
-    PropertyAnimation {id: fluidAnim; target: fluid; properties: "opacity"; to: "1"; duration: 500}
-    PropertyAnimation {id: splashAnim; target: splash; properties: "opacity"; to: "1.0"; duration: 300;
-                                                                                                 onStopped:
-                                                                                                 {
-                                                                                                    // videoAnim.start();
-                                                                                                    // video.play();
-                                                                                                    // video.pause();
-
-                                                                                                 }}
+    PropertyAnimation {id: opacityAnim; target: splash; properties: "opacity"; to: "1"; duration: 500;
+        onStopped:
+        {
+             splash.source = "qrc:/images/design/game3Overlay.png";
+             fluidAnim.start();
+             tilt.active = true;
+        }
+    }
 
     function start()
     {
-        tilt.active = true;
+
         timer.running = true;
     }
 
@@ -84,12 +82,7 @@ Item {
         repeat: false
         onTriggered:
         {
-            fluid.opacity = 1;
-            splash.opacity = 1;
-            //fluidAnim.start();
-            //splashAnim.start();
-
-
+            opacityAnim.start();
             promt.show(gameId);
         }
     }

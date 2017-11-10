@@ -14,13 +14,13 @@ Window {
     property var model :
     [
             {name:"Intro.qml", timecode: 1300, seek: -1},
-            {name:"Game1.qml", timecode: 6100, seek: -1},
+            {name:"Game1.qml", timecode: 5300, seek: -1},
             {name:"Game2.qml", timecode: 9100, seek: -1},
-            {name:"Game3.qml", timecode: 15800, seek: -1},
-            {name:"Game4.qml", timecode: 18400, seek: -1},
-            {name:"SliderLocation.qml", timecode: 23000, seek: -1},
-            {name:"Final.qml", timecode: 27000, seek: -1},
-            {name:"", timecode: 29000, seek: -1}
+            {name:"Game3.qml", timecode: 16500, seek: -1},
+            {name:"Game4.qml", timecode: 19000, seek: -1},
+            {name:"SliderLocation.qml", timecode: 24000, seek: -1},
+            {name:"Final.qml", timecode: 26500, seek: -1},
+            {name:"", timecode: 29500, seek: -1}
     ];
 
     Connections {
@@ -94,9 +94,15 @@ Window {
     {
         currentLocation++;
         console.log("currentLocation ----------  ", currentLocation);
+        videoPlayer.seekTo(model[currentLocation].seek);
         videoPlayer.playTo(model[currentLocation].timecode);
         videoPlayer.visible = true;
         canInteract = false;
+
+//        if(currentLocation == 6)
+//        {
+//            videoPlayer.visible = false;
+//        }
     }
 
     Menu
@@ -126,6 +132,7 @@ Window {
         videoPlayer.visible = true;
         pageLoader.source = model[currentLocation].name;
         canInteract = false;
+        pageLoader.item.start();
     }
 
     function nextLocation(id)
@@ -143,11 +150,11 @@ Window {
         {
             if(model[currentLocation].name !== "")
             {
-                console.log(" start location  ", model[currentLocation].name);
+              //  console.log(" start location  ", model[currentLocation].name);
                 pageLoader.source = model[currentLocation].name;
             }
 
-           //videoPlayer.seekTo(model[currentLocation].seek);
+
             //videoPlayer.playTo(model[currentLocation].timecode);
            // videoPlayer.visible = true;
         }
