@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtSensors 5.0
 
@@ -26,7 +26,7 @@ Item {
 
     function finish()
     {
-       resumeAnimations();
+       startAnimations(coords[1], 200);
        tilt.active = false;
     }
 
@@ -102,11 +102,12 @@ Item {
     Timer
     {
         id:timerOut;
-        interval: 500;
+        interval: 1100;
         running: false;
         repeat: false
         onTriggered:
         {
+           // bg.opacity = 0;
             gameFinished(gameId);
         }
     }
@@ -129,12 +130,13 @@ Item {
                                                                                                 if(state == 1)
                                                                                                 {
                                                                                                      tilt.active = true;
-                                                                                                     startAnimations(coords[1], 2000);
-                                                                                                     pauseAnimations();
+                                                                                                    // startAnimations(coords[1], 2000);
+                                                                                                  //   pauseAnimations();
                                                                                                      state = 2;
                                                                                                 }
                                                                                                 else if (state == 2)
                                                                                                 {
+                                                                                                    console.log("START FINISHING!!!!!!!!!!!")
                                                                                                     root.startFinishing();
                                                                                                     timerOut.running = true;
                                                                                                     tilt.active = false;
@@ -158,8 +160,8 @@ Item {
 
     property var coords:
     [
-        {x10:-16, y10:482, x20:400, y20:525, x30:625, y30:374},
-        {x10:-20, y10:462, x20:365, y20:440, x30:629, y30:406},
+        {x10:-15, y10:465, x20:401, y20:511, x30:625, y30:356},
+        {x10:-17, y10:444, x20:368, y20:426, x30:629, y30:391},
         {x10:-20, y10:262, x20:365, y20:360, x30:629, y30:616}
     ];
 
@@ -181,7 +183,7 @@ Item {
         x:coords[0].x10
         y:coords[0].y10;
         opacity:0;
-        transform: Rotation {id: rot1;  angle: -4.8}
+        transform: Rotation {id: rot1;  angle: -4.8; origin.x:top.width*0.5; origin.y: top.height*0.5;}
     }
 
     Image
@@ -193,7 +195,7 @@ Item {
         x:coords[0].x20;
         y:coords[0].y20;
         opacity:0;
-        transform: Rotation {id: rot2;  angle: -4.8}
+        transform: Rotation {id: rot2;  angle: -4.8; origin.x:middle.width*0.5; origin.y: middle.height*0.5;}
     }
 
     Image
@@ -205,7 +207,7 @@ Item {
         x:coords[0].x30;
         y:coords[0].y30;
         opacity:0;
-        transform: Rotation {id: rot3;  angle: -4.8}
+        transform: Rotation {id: rot3;  angle: -4.8; origin.x:bot.width*0.5; origin.y: bot.height*0.5;}
     }
 
     Text
@@ -218,6 +220,66 @@ Item {
     {
         id:promt
     }
+
+    property real angle: -4.8;
+
+    Keys.onPressed:
+    {
+        var sign2 = 1;
+        var factor2 = 2.2;
+         var factor3 = 1.8;
+           if (event.key == Qt.Key_Up)
+           {
+
+               if(middle.y + sign2 * Math.sin(angle) < 290 || middle.y + sign2 * Math.sin(angle) > 600)
+                   return;
+               middle.x+= sign2 * Math.cos(angle);
+               middle.y+= sign2 * Math.sin(angle);
+               top.x+= factor2*sign2 * Math.cos(angle);
+               top.y+= factor2*sign2 * Math.sin(angle);
+               bot.x-= factor3*sign2 * Math.cos(angle);
+               bot.y-= factor3*sign2 * Math.sin(angle);
+               event.accepted = true;
+           }
+
+           if (event.key == Qt.Key_Down)
+           {
+                sign2 = -1;
+               if(middle.y + sign2 * Math.sin(angle) < 290 || middle.y + sign2 * Math.sin(angle) > 600)
+                   return;
+
+               middle.x+= sign2 * Math.cos(angle);
+               middle.y+= sign2 * Math.sin(angle);
+               top.x+= factor2*sign2 * Math.cos(angle);
+               top.y+= factor2*sign2 * Math.sin(angle);
+               bot.x-= factor3*sign2 * Math.cos(angle);
+               bot.y-= factor3*sign2 * Math.sin(angle);
+               event.accepted = true;
+           }
+
+           if (event.key == Qt.Key_Left)
+           {
+               rotate(1);
+           }
+           if (event.key == Qt.Key_Right)
+           {
+               rotate(-1);
+           }
+
+
+            console.log(middle.y)
+
+           if(checkCond())
+           {
+               ready = true;
+             //  finish();
+             //  resumeAnimations()
+               startAnimations(coords[1], 200);
+           }
+       }
+    focus: true
+
+    property bool ready:false;
 
     TiltSensor
     {
@@ -234,19 +296,8 @@ Item {
 
             if(xRot > angleThreshold || xRot < -angleThreshold )
             {
-                rot1.origin.x = top.width*0.5;
-                rot1.origin.y = top.height*0.5;
-
-                rot2.origin.x = middle.width*0.5;
-                rot2.origin.y = middle.height*0.5;
-
-                rot3.origin.x = bot.width*0.5;
-                rot3.origin.y = bot.height*0.5;
-
-                var sign = xRot > 0 ? 1: -1;
-                rot1.angle += sign;
-                rot2.angle += sign;
-                rot3.angle += sign;
+               var sign = xRot > 0 ? 1: -1;
+               rotate(sign);
                 //resumeAnimations();
             }
             else
@@ -262,6 +313,34 @@ Item {
             }
         }
     }
+
+    function rotate(factor)
+    {
+        rot1.angle += factor;
+        rot2.angle += factor;
+        rot3.angle += factor;
+    }
+
+    function checkCond()
+    {
+        return middle.x > 373 && middle.x < 374.5 && rot1.angle > -5 && rot1.angle < -4 && !ready;
+    }
+
+    Timer {
+            id:updater;
+            running: true;
+            repeat: true;
+            interval: 500;
+            onTriggered:
+            {
+               //rotate(1);
+
+                if(checkCond())
+                {
+                   // startAnimations(coords[1], 200);
+                }
+            }
+        }
 
     Tools
     {

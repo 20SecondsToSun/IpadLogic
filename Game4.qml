@@ -122,7 +122,7 @@ Item {
     Timer
     {
         id:onOutTimer;
-        interval: 1500;
+        interval: 300;
         running: false;
         repeat: false;
         onTriggered:
