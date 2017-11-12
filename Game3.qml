@@ -17,6 +17,15 @@ Item {
 
     Image
     {
+        id:splash;
+        fillMode: Image.PreserveAspectFit
+        width:root.width;
+        source:"qrc:/images/design/qt_Game3_Liquid.png"
+        opacity:0;
+    }
+
+    Image
+    {
         id:fluid;
         fillMode: Image.PreserveAspectFit
         x:1568 * tool.getScale();
@@ -30,10 +39,10 @@ Item {
 
     Image
     {
-        id:splash;
+        id:splash1;
         fillMode: Image.PreserveAspectFit
         width:root.width;
-        source:"qrc:/images/design/qt_Game3_Liquid.png"
+        source:"qrc:/images/design/game3Overlay.png"
         opacity:0;
     }
 
@@ -44,15 +53,19 @@ Item {
 
     PropertyAnimation {id: rotAnim; target: fluidRot; properties: "angle"; to: "1"; duration: 300}
     PropertyAnimation {id: yAnim; target: fluid; properties: "y"; to: "1"; duration: 300}
-    PropertyAnimation {id: fluidAnim; target: fluid; properties: "opacity"; to: "1"; duration: 300}
+    PropertyAnimation {id: fluidAnim; target: fluid; properties: "opacity"; to: "1"; duration: 300;
+        onStopped:
+        {
+            tilt.active = true;
+            splash.opacity = 0;
+        }
+    }
     PropertyAnimation {id: splashAnim; target: splash; properties: "opacity"; to: "1.0"; duration: 300;}
 
     PropertyAnimation {id: opacityAnim; target: splash; properties: "opacity"; to: "1"; duration: 500;
         onStopped:
         {
-             splash.source = "qrc:/images/design/game3Overlay.png";
              fluidAnim.start();
-             tilt.active = true;
         }
     }
 
@@ -82,7 +95,9 @@ Item {
         repeat: false
         onTriggered:
         {
-            opacityAnim.start();
+            splash.opacity = 1;
+            splash1.opacity = 1;
+            fluidAnim.start();
             promt.show(gameId);
         }
     }
@@ -102,17 +117,11 @@ Item {
                 //rotAnim.start();
                 yAnim.to = fluid.y + yIncr;
                 yAnim.start();
-                //video.play();
-            }
-            else
-            {
-               // video.pause();
             }
 
             if(yAnim.to >= yFinished)
             {
                 finish();
-               // video.pause();
             }
         }
     }

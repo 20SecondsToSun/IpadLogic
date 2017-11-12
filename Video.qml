@@ -40,6 +40,7 @@ Item {
 
     function init(ms)
     {
+       video.pause();
        video.seek(0);
        timer.running = true;
 

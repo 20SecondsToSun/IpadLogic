@@ -1,6 +1,6 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
-import QtSensors 5.0
+import QtSensors 5.1
 
 Item {
     id:root
@@ -8,160 +8,18 @@ Item {
     property int gameId: 1;
     signal gameFinished(int id);
     signal startFinishing();
-    property int timecodeForStart: 4100;
+    property int timecodeForStart: 3600;
+    property int timecodeForEnd: 1100;
     property int outAnimDuration: 100;
     property int angleThreshold: 10;
     property int state:1;
-
-    function clean()
-    {
-        timer.stop();
-        promt.hide();
-    }
-
-    function start()
-    {
-        timer.running = true;
-    }
-
-    function finish()
-    {
-       startAnimations(coords[1], 200);
-       tilt.active = false;
-    }
-
-    function startAnimations(coord, dur)
-    {
-        x1Anim.stop();
-        y1Anim.stop();
-        x2Anim.stop();
-        y2Anim.stop();
-        x3Anim.stop();
-        y3Anim.stop();
-
-        x1Anim.duration = dur;
-        y1Anim.duration = dur;
-        x2Anim.duration = dur;
-        y2Anim.duration = dur;
-        x3Anim.duration = dur;
-        y3Anim.duration = dur;
-
-        x1Anim.to = coord.x10;
-        y1Anim.to = coord.y10;
-        x2Anim.to = coord.x20;
-        y2Anim.to = coord.y20;
-        x3Anim.to = coord.x30;
-        y3Anim.to = coord.y30;
-
-        x1Anim.start();
-        y1Anim.start();
-        x2Anim.start();
-        y2Anim.start();
-        x3Anim.start();
-        y3Anim.start();
-    }
-
-    function resumeAnimations()
-    {
-        x1Anim.resume();
-        y1Anim.resume();
-        x2Anim.resume();
-        y2Anim.resume();
-        x3Anim.resume();
-        y3Anim.resume();
-    }
-
-    function pauseAnimations()
-    {
-        x1Anim.pause();
-        y1Anim.pause();
-        x2Anim.pause();
-        y2Anim.pause();
-        x3Anim.pause();
-        y3Anim.pause();
-    }
-
-    Timer
-    {
-        id:timer;
-        interval: timecodeForStart;
-        running: false;
-        repeat: false
-        onTriggered:
-        {
-
-            opacityAnim1.start();
-            opacityAnim2.start();
-            opacityAnim3.start();
-           // middle.opacity = 1;
-           // bot.opacity = 1;
-            promt.show(gameId);
-        }
-    }
-
-    Timer
-    {
-        id:timerOut;
-        interval: 1100;
-        running: false;
-        repeat: false
-        onTriggered:
-        {
-           // bg.opacity = 0;
-            gameFinished(gameId);
-        }
-    }
-
-    PropertyAnimation {id: opacityAnim1; target: top; properties: "opacity"; to: "1"; duration: 500; onStopped:
-    {
-       opacityAnim4.start();
-       startAnimations(coords[2], 1500);
-    }}
-
-    PropertyAnimation {id: opacityAnim2; target: middle; properties: "opacity"; to: "1"; duration: 500}
-
-    PropertyAnimation {id: opacityAnim3; target: bot; properties: "opacity"; to: "1"; duration: 500}
-    PropertyAnimation {id: opacityAnim4; target: bg; properties: "opacity"; to: "1"; duration: 100}
-
-    PropertyAnimation{id:x1Anim; target: top; properties: "x"; to: coords[1].x10; duration: outAnimDuration;
-                                                                                            onStopped:
-                                                                                            {
-                                                                                                console.log("animations finished  ", state)
-                                                                                                if(state == 1)
-                                                                                                {
-                                                                                                     tilt.active = true;
-                                                                                                    // startAnimations(coords[1], 2000);
-                                                                                                  //   pauseAnimations();
-                                                                                                     state = 2;
-                                                                                                }
-                                                                                                else if (state == 2)
-                                                                                                {
-                                                                                                    console.log("START FINISHING!!!!!!!!!!!")
-                                                                                                    root.startFinishing();
-                                                                                                    timerOut.running = true;
-                                                                                                    tilt.active = false;
-                                                                                                }
-                                                                                            }
-                                                                                        }
-
-    PropertyAnimation{id:y1Anim;
-        target: top;
-        properties: "y";
-        to: coords[1].y10;
-        duration: outAnimDuration
-
-    }
-
-    PropertyAnimation{id:x2Anim; target: middle; properties: "x"; to: coords[1].x20; duration: outAnimDuration}
-    PropertyAnimation{id:x3Anim; target: bot; properties: "x"; to: coords[1].x30; duration: outAnimDuration}
-
-    PropertyAnimation{id:y2Anim; target: middle; properties: "y"; to: coords[1].y20; duration: outAnimDuration}
-    PropertyAnimation{id:y3Anim; target: bot; properties: "y"; to: coords[1].y30; duration: outAnimDuration}
+    property real startAngle:0;
+    property bool startAngleFixed: false;
 
     property var coords:
     [
         {x10:-15, y10:465, x20:401, y20:511, x30:625, y30:356},
-        {x10:-17, y10:444, x20:368, y20:426, x30:629, y30:391},
+        {x10:-17, y10:444, x20:368, y20:426, x30:631, y30:389},
         {x10:-20, y10:262, x20:365, y20:360, x30:629, y30:616}
     ];
 
@@ -213,7 +71,6 @@ Item {
     Text
     {
         id:gyro
-
     }
 
     Promt
@@ -221,126 +78,341 @@ Item {
         id:promt
     }
 
-    property real angle: -4.8;
 
-    Keys.onPressed:
+    function clean()
     {
-        var sign2 = 1;
-        var factor2 = 2.2;
-         var factor3 = 1.8;
-           if (event.key == Qt.Key_Up)
-           {
+        timer.stop();
+        promt.hide();
+    }
 
-               if(middle.y + sign2 * Math.sin(angle) < 290 || middle.y + sign2 * Math.sin(angle) > 600)
-                   return;
-               middle.x+= sign2 * Math.cos(angle);
-               middle.y+= sign2 * Math.sin(angle);
-               top.x+= factor2*sign2 * Math.cos(angle);
-               top.y+= factor2*sign2 * Math.sin(angle);
-               bot.x-= factor3*sign2 * Math.cos(angle);
-               bot.y-= factor3*sign2 * Math.sin(angle);
-               event.accepted = true;
-           }
+    function start()
+    {
+        timer.running = true;
+    }
 
-           if (event.key == Qt.Key_Down)
-           {
-                sign2 = -1;
-               if(middle.y + sign2 * Math.sin(angle) < 290 || middle.y + sign2 * Math.sin(angle) > 600)
-                   return;
+    function finish()
+    {
 
-               middle.x+= sign2 * Math.cos(angle);
-               middle.y+= sign2 * Math.sin(angle);
-               top.x+= factor2*sign2 * Math.cos(angle);
-               top.y+= factor2*sign2 * Math.sin(angle);
-               bot.x-= factor3*sign2 * Math.cos(angle);
-               bot.y-= factor3*sign2 * Math.sin(angle);
-               event.accepted = true;
-           }
+       tilt.active = false;
+        state = 2;
+        var secs = 200;
+        startAnimations(coords[1], secs);
 
-           if (event.key == Qt.Key_Left)
-           {
-               rotate(1);
-           }
-           if (event.key == Qt.Key_Right)
-           {
-               rotate(-1);
-           }
+        rot1Anim.stop();
+        rot2Anim.stop();
+        rot3Anim.stop();
+
+        rot1Anim.duration = secs;
+        rot2Anim.duration = secs;
+        rot3Anim.duration = secs;
+
+        rot1Anim.to = angleEnd;
+        rot2Anim.to = angleEnd;
+        rot3Anim.to = angleEnd;
+
+        rot1Anim.start();
+        rot2Anim.start();
+        rot3Anim.start();
+    }
+
+    function startAnimations(coord, dur)
+    {
+        x1Anim.stop();
+        y1Anim.stop();
+        x2Anim.stop();
+        y2Anim.stop();
+        x3Anim.stop();
+        y3Anim.stop();
+
+        x1Anim.duration = dur;
+        y1Anim.duration = dur;
+        x2Anim.duration = dur;
+        y2Anim.duration = dur;
+        x3Anim.duration = dur;
+        y3Anim.duration = dur;
+
+        x1Anim.to = coord.x10;
+        y1Anim.to = coord.y10;
+        x2Anim.to = coord.x20;
+        y2Anim.to = coord.y20;
+        x3Anim.to = coord.x30;
+        y3Anim.to = coord.y30;
+
+        x1Anim.start();
+        y1Anim.start();
+        x2Anim.start();
+        y2Anim.start();
+        x3Anim.start();
+        y3Anim.start();
+    }
+
+    function startAnimationsTo(dur, x1, y1, x2, y2, x3, y3)
+    {
+        x1Anim.stop();
+        y1Anim.stop();
+        x2Anim.stop();
+        y2Anim.stop();
+        x3Anim.stop();
+        y3Anim.stop();
+
+        x1Anim.duration = dur;
+        y1Anim.duration = dur;
+        x2Anim.duration = dur;
+        y2Anim.duration = dur;
+        x3Anim.duration = dur;
+        y3Anim.duration = dur;
+
+        x1Anim.to = x2;
+        y1Anim.to = y2;
+        x2Anim.to = x1;
+        y2Anim.to = y1;
+        x3Anim.to = x3;
+        y3Anim.to = y3;
+
+        x1Anim.start();
+        y1Anim.start();
+        x2Anim.start();
+        y2Anim.start();
+        x3Anim.start();
+        y3Anim.start();
+    }
+
+    Timer
+    {
+        id:timer;
+        interval: timecodeForStart;
+        running: false;
+        repeat: false
+        onTriggered:
+        {
+
+            opacityAnim1.start();
+            opacityAnim2.start();
+            opacityAnim3.start();
+            promt.show(gameId);
+        }
+    }
+
+    Timer
+    {
+        id:timerOut;
+        interval: timecodeForEnd;
+        running: false;
+        repeat: false
+        onTriggered:
+        {
+            gameFinished(gameId);
+        }
+    }
+
+    PropertyAnimation {id: opacityAnim1; target: top; properties: "opacity"; to: "1"; duration: 500; onStopped:
+    {
+       opacityAnim4.start();
+//            angleAnimDuration = 1500;
+//            rot1Anim.to = 4;
+//            rot2Anim.to = -2;
+//            rot3Anim.to = 3;
+
+//            rot1Anim.start();
+//            rot2Anim.start();
+//            rot3Anim.start();
+
+       startAnimations(coords[2], 1500);
+    }}
+
+    PropertyAnimation {id: opacityAnim2; target: middle; properties: "opacity"; to: "1"; duration: 500}
+    PropertyAnimation {id: opacityAnim3; target: bot; properties: "opacity"; to: "1"; duration: 500}
+    PropertyAnimation {id: opacityAnim4; target: bg; properties: "opacity"; to: "1"; duration: 100}
+
+    PropertyAnimation{id:x1Anim; target: top; properties: "x"; to: coords[1].x10; duration: outAnimDuration;
+                                                                                            onStopped:
+                                                                                            {
+                                                                                                if(state == 1)
+                                                                                                {
+                                                                                                     tilt.active = true;
+                                                                                                     startAngleFixed = false;
+                                                                                                     angleAnimDuration = 100;
+                                                                                                     state = 3;
+                                                                                                }
+                                                                                                else if (state == 2)
+                                                                                                {
+                                                                                                    root.startFinishing();
+                                                                                                    timerOut.running = true;
+                                                                                                    tilt.active = false;
+                                                                                                    state = -1;
+                                                                                                }
+                                                                                            }
+                                                                                        }
+
+    PropertyAnimation{id:y1Anim; target: top; properties: "y"; to: coords[1].y10; duration: outAnimDuration}
+    PropertyAnimation{id:x2Anim; target: middle; properties: "x"; to: coords[1].x20; duration: outAnimDuration}
+    PropertyAnimation{id:x3Anim; target: bot; properties: "x"; to: coords[1].x30; duration: outAnimDuration}
+    PropertyAnimation{id:y2Anim; target: middle; properties: "y"; to: coords[1].y20; duration: outAnimDuration}
+    PropertyAnimation{id:y3Anim; target: bot; properties: "y"; to: coords[1].y30; duration: outAnimDuration}
 
 
-            console.log(middle.y)
+    property real angleAnimDuration:100;
+    PropertyAnimation{id:rot1Anim; target: rot1; properties: "angle"; to:0; duration: angleAnimDuration}
+    PropertyAnimation{id:rot2Anim; target: rot2; properties: "angle"; to:0; duration: angleAnimDuration}
+    PropertyAnimation{id:rot3Anim; target: rot3; properties: "angle"; to:0; duration: angleAnimDuration}
 
-           if(checkCond())
-           {
-               ready = true;
-             //  finish();
-             //  resumeAnimations()
-               startAnimations(coords[1], 200);
-           }
-       }
-    focus: true
+
+
+    property real angle: -4.8;
+    property real angleEnd: -4.8;
 
     property bool ready:false;
+    property real xRotPrev: 0;
+    property real yRotPrev: 0;
+
+    property string direction : "down";
 
     TiltSensor
     {
         id: tilt
         active: false;
+        dataRate: 100;
+        skipDuplicates:true;
 
         onReadingChanged:
         {
-            var xRot = tilt.reading.xRotation.toFixed(2);
+            var xRot = tilt.reading.xRotation.toFixed(0);
+            var yRot = tilt.reading.yRotation.toFixed(0);
 
-            var yRot = tilt.reading.yRotation.toFixed(2);
-            gyro.text = yRot;
+           // gyro.text = yRot + " start angle "+ startAngle + " direction " + direction + " diff " + (yRotPrev - yRot);
 
+            if(xRotPrev != xRot)
+                rotate(xRot);
+            xRotPrev = xRot;
 
-            if(xRot > angleThreshold || xRot < -angleThreshold )
+            if(!startAngleFixed)
             {
-               var sign = xRot > 0 ? 1: -1;
-               rotate(sign);
-                //resumeAnimations();
+               // calibrate()
+
+                startAngleFixed = true;
+                startAngle = yRot;
+                xRotPrev = xRot;
+                yRotPrev = yRot;
+
+            }
+
+            if(direction == "down")
+            {
+               if(yRotPrev - yRot > 5)
+               {
+                   direction = "up";
+                   yRotPrev = yRot;
+               }
+            }
+            else if(direction == "up")
+            {
+               if(yRotPrev - yRot < -5)
+               {
+                   direction = "down";
+                   yRotPrev = yRot;
+               }
+            }
+
+            if(yRot > 0)//direction == "down")
+            {
+                moveDown();
             }
             else
             {
-               // pauseAnimations();
+                moveUp();
             }
 
-            if(yRot > angleThreshold || yRot < -angleThreshold )
+           // yRotPrev = yRot;
+
+            if(checkCond())
             {
-                var sign2 = (yRot + 90) > 0 ? 1: -1;
-                middle.x+= sign2 * Math.cos(-4.8);
-                middle.y+= sign2 * Math.sin(-4.8);
+                tilt.active = false;
+                ready = true;
+                state = 2;
+                finish();
             }
         }
+    }
+
+    Accelerometer
+    {
+        id:accel;
+        active: true;
+        dataRate: 100;
+        onReadingChanged:
+        {
+            var roll = calcRoll(accel.reading.x, accel.reading.y, accel.reading.z);
+            var pitch = calcPitch(accel.reading.x, accel.reading.y, accel.reading.z);
+
+           // gyro.text = " roll  "+ roll + " pitch " + pitch;
+        }
+    }
+
+    function calcPitch(x,y,z) {
+            return -(Math.atan(y / Math.sqrt(x * x + z * z)) * 57.2957795);
+        }
+        function calcRoll(x,y,z) {
+             return -(Math.atan(x / Math.sqrt(y * y + z * z)) * 57.2957795);
+        }
+
+
+    property int moveFactor: 10;
+    function moveUp()
+    {
+        var sign2 = moveFactor;
+        var factor2 = 2.2;
+        var factor3 = 1.8;
+
+        if(middle.y + sign2 * Math.sin(angle) < 290 || middle.y + sign2 * Math.sin(angle) > 600)
+            return;
+
+
+        startAnimationsTo(100,
+                   middle.x+sign2 * Math.cos(angle),
+                   middle.y+ sign2 * Math.sin(angle),
+                   top.x+ factor2*sign2 * Math.cos(angle),
+                   top.y+ factor2*sign2 * Math.sin(angle),
+                   bot.x- factor3*sign2 * Math.cos(angle),
+                   bot.y- factor3*sign2 * Math.sin(angle)
+                          )
+    }
+
+    function moveDown()
+    {
+        var factor2 = 2.2;
+        var factor3 = 1.8;
+        var sign2 = -moveFactor;
+       if(middle.y + sign2 * Math.sin(angle) < 290 || middle.y + sign2 * Math.sin(angle) > 600)
+           return;
+
+       startAnimationsTo(100,
+                  middle.x+sign2 * Math.cos(angle),
+                  middle.y+ sign2 * Math.sin(angle),
+                  top.x+ factor2*sign2 * Math.cos(angle),
+                  top.y+ factor2*sign2 * Math.sin(angle),
+                  bot.x- factor3*sign2 * Math.cos(angle),
+                  bot.y- factor3*sign2 * Math.sin(angle)
+                         )
     }
 
     function rotate(factor)
     {
-        rot1.angle += factor;
-        rot2.angle += factor;
-        rot3.angle += factor;
+        rot1Anim.to = factor;
+        rot2Anim.to = factor;
+        rot3Anim.to = factor;
+
+        rot1Anim.start();
+        rot2Anim.start();
+        rot3Anim.start();
+//        rot1.angle = factor;
+//        rot2.angle = factor;
+//        rot3.angle = factor;
     }
 
     function checkCond()
     {
-        return middle.x > 373 && middle.x < 374.5 && rot1.angle > -5 && rot1.angle < -4 && !ready;
+        return middle.x > 373 && middle.x < 374.5 && rot1.angle > -6 && rot1.angle < -3 && !ready;
     }
-
-    Timer {
-            id:updater;
-            running: true;
-            repeat: true;
-            interval: 500;
-            onTriggered:
-            {
-               //rotate(1);
-
-                if(checkCond())
-                {
-                   // startAnimations(coords[1], 200);
-                }
-            }
-        }
 
     Tools
     {

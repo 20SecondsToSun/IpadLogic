@@ -51,7 +51,7 @@ Item {
     Timer
     {
         id:timerForStart;
-        interval: 1500;
+        interval: 1100;
         running: false;
         repeat: false;
         onTriggered:
