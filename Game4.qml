@@ -10,11 +10,11 @@ Item {
     property int gameId:4;
     property int timecodeForStart: 2300;
     property int clickNum:0;
-    property int clickToWin:5;
-    property int widthIncrement: 80;
+    property int clickToWin:3;
+    property int widthIncrement: 150;
     property int startWidth: 1;
     property int endWidth: 595;
-    property int currentWIdth;
+    property int currentWIdth: 0;
     property bool lastClick:false;
 
     property bool isFinished: false;
@@ -39,8 +39,8 @@ Item {
         source:"qrc:/images/design/game4Overlay.png"
         opacity:0;
     }
-    PropertyAnimation {id: splashOpacityAnim; target: splash; properties: "opacity"; to: "1"; duration: 500}
 
+    PropertyAnimation {id: splashOpacityAnim; target: splash; properties: "opacity"; to: "1"; duration: 500}
     PropertyAnimation {id: opacityAnim; target: circle; properties: "opacity"; to: "1"; duration: 500}
     PropertyAnimation {id: widthAnim; target: circle; properties: "width"; to: "200"; duration: 2000}
     PropertyAnimation {id: xAnim; target: circle; properties: "x"; to: "200"; duration: 2000}
@@ -54,7 +54,7 @@ Item {
                 root.startFinishing();
             }
             if(lastClick)
-                startAnimation(startWidth, 300)
+                startAnimation(1700, 500);
         }}
 
     Promt
@@ -81,18 +81,21 @@ Item {
 
         if(++clickNum > clickToWin)
         {
+
             lastClick = true;
-            timer.stop();
+           // timer.stop();
         }
         else
         {
-            timer.restart();
-            timer.running = true;
+            //timer.restart();
+            //timer.running = true;
         }
 
-        if(clickNum == 1)
+        currentWIdth += widthIncrement;
+
+        //if(clickNum == 1)
         {
-            startAnimation(endWidth, 2000);
+            startAnimation(currentWIdth, 500);
         }
     }
 
@@ -122,7 +125,7 @@ Item {
     Timer
     {
         id:onOutTimer;
-        interval: 300;
+        interval: 1000;
         running: false;
         repeat: false;
         onTriggered:
@@ -158,7 +161,7 @@ Item {
             if(!lastClick)
             {
                 clickNum = 0;
-                startAnimation(startWidth, 300);
+                //startAnimation(startWidth, 300);
             }
         }
     }

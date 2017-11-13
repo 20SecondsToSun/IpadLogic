@@ -9,7 +9,7 @@ Item {
     signal startFinishing();
 
     property int size: 150;
-    property int numToKill: 3;
+    property int numToKill: 2;
     property int killCont:0;
     property int side: 0;
     property int sidesNum: 4;

@@ -8,7 +8,7 @@ Item {
 
      property int size;
      property variant _parent;
-     property int deathTime:6000;
+     property int deathTime: 6000;
 
      property var locations:
      [
@@ -26,9 +26,11 @@ Item {
         source:"qrc:/images/design/Capsule.png"
         Button
         {
-            width:promt.width;
-            height:promt.height;
-            opacity: 0;
+            width:promt.width*1.5;
+            height:promt.height*3;
+            opacity: .4;
+            x:(promt.width - width)*0.5;
+            y:(promt.height - height)*0.5;
             onClicked:
             {
                 timer.running = false;

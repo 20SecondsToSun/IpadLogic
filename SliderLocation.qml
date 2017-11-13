@@ -110,6 +110,7 @@ Item {
                //colorAnim2.to = colors[currentIndex].c2;
                //colorAnim3.to = colors[currentIndex].c3;
 
+              colorAnim.stop();
                colorAnim.to = colors[currentIndex].c2;
 
                //colorAnim1.start();

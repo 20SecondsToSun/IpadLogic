@@ -6,7 +6,7 @@ Item
     id:root;
     visible:false;
 
-    property int timeToHide: 3000;
+    property int timeToHide: 7000;
 
     property var model :
         [
