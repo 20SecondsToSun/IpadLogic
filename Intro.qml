@@ -59,5 +59,4 @@ Item {
             opacityAnim.start();
         }
     }
-
 }

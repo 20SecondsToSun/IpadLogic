@@ -21,36 +21,36 @@ Item {
         repeat: false;
         onTriggered:
         {
-          root.videoLoaded();
+            root.videoLoaded();
         }
     }
 
     MediaPlayer {
-            id: video
-            source: "qrc:/images/design/mainvid.mp4"
-        }
+        id: video
+        source: "qrc:/images/design/mainvid.mp4"
+    }
 
     VideoOutput {
-          source: video
-          width:1024
-          height : 768
-          opacity:1.
+        source: video
+        width:1024
+        height : 768
+        opacity:1.
 
-      }
+    }
 
     function init(ms)
     {
-       video.pause();
-       video.seek(0);
-       timer.running = true;
+        video.pause();
+        video.seek(0);
+        timer.running = true;
 
-       timer.interval = (ms);
-       video.play();
+        timer.interval = (ms);
+        video.play();
     }
 
     function seekTo(ms)
     {
-       if(ms === -1)
+        if(ms === -1)
             return;
 
 
@@ -60,7 +60,7 @@ Item {
 
     function playTo(ms)
     {
-       // console.log("ms  "+ ms,"position: "+ video.position);
+         console.log("ms  "+ ms,"position: "+ video.position);
         if(ms - video.position > 0)
         {
             timer.running = true;
@@ -71,14 +71,14 @@ Item {
     }
 
     Timer {
-            id:timer;
-            running: false;
-            repeat: false
-            onTriggered:
-            {
-                video.pause();
-                root.videoPaused();
-                console.log("stoped  ","position: "+ video.position);
-            }
+        id:timer;
+        running: false;
+        repeat: false
+        onTriggered:
+        {
+            video.pause();
+            root.videoPaused();
+            console.log("stoped  ","position: "+ video.position);
         }
+    }
 }

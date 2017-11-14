@@ -11,45 +11,48 @@ Window {
     property int currentLocation: 0;
     property bool wasSleep:false;
 
+    property int introLocationID:0;
+    property int finalLocationID:7;
+
     property var model :
-    [
-            {name:"Intro.qml", timecode: 1300, seek: -1},
-            {name:"Game1.qml", timecode: 5300, seek: -1},
-            {name:"Game2.qml", timecode: 9100, seek: -1},
-            {name:"Game3.qml", timecode: 16500, seek: -1},
-            {name:"Game4.qml", timecode: 19000, seek: -1},
-            {name:"SliderLocation.qml", timecode: 24000, seek: -1},
-            {name:"Final.qml", timecode: 26500, seek: -1},
-            {name:"", timecode: 29500, seek: -1}
+        [
+        {name:"Intro.qml", timecode: 1300, seek: -1},
+        {name:"Game1.qml", timecode: 5300, seek: -1},
+        {name:"Game2.qml", timecode: 9100, seek: -1},
+        {name:"Game3.qml", timecode: 16800, seek: -1},
+        {name:"Game4.qml", timecode: 19000, seek: -1},
+        {name:"SliderLocation.qml", timecode: 24000, seek: -1},
+        {name:"Final.qml", timecode: 27000, seek: -1},
+        {name:"", timecode: 30000, seek: -1}
     ];
 
     Connections {
-       target: Qt.application
-       onStateChanged: {
-          if(Qt.application.state === Qt.ApplicationActive)
-          {
-              if(wasSleep && currentLocation == 0)
-              {
-                  wasSleep = false;
-                  pageLoader.item.clean();
-                  start();
-              }
-          }
-          else
-          {
-              wasSleep = true;
-          }
-       }
+        target: Qt.application
+        onStateChanged: {
+            if(Qt.application.state === Qt.ApplicationActive)
+            {
+                if(wasSleep && currentLocation == introLocationID)
+                {
+                    wasSleep = false;
+                    pageLoader.item.clean();
+                    start();
+                }
+            }
+            else
+            {
+                wasSleep = true;
+            }
+        }
     }
 
     Connections
     {
-       target: pageLoader.item
-       onGameFinished: nextLocation(id+1);
-       onStartFinishing:
-       {
-           playVideo();
-       }
+        target: pageLoader.item
+        onGameFinished: nextLocation(id+1);
+        onStartFinishing:
+        {
+            playVideo();
+        }
     }
 
     Component.onCompleted:
@@ -71,7 +74,7 @@ Window {
         onVideoPaused:
         {
             canInteract = true;
-            if(currentLocation == 7)
+            if(currentLocation == finalLocationID)
             {
                 start();
             }
@@ -85,9 +88,10 @@ Window {
 
     Loader
     {
-       id: pageLoader
-       width:parent.width;
-       height:parent.height;
+        id: pageLoader
+        width:parent.width;
+        height:parent.height;
+        opacity:1.
     }
 
     function playVideo()
@@ -98,11 +102,6 @@ Window {
         videoPlayer.playTo(model[currentLocation].timecode);
         videoPlayer.visible = true;
         canInteract = false;
-
-//        if(currentLocation == 6)
-//        {
-//            videoPlayer.visible = false;
-//        }
     }
 
     Menu
@@ -111,14 +110,13 @@ Window {
         {
             if(canInteract)
             {
-               ///nextLocation(currentLocation + 1);
                 pageLoader.item.finish()
             }
         }
 
         onHomeClick:
         {
-            if(canInteract && currentLocation != 0)
+            if(canInteract && currentLocation != introLocationID)
             {
                 start();
             }
@@ -127,7 +125,7 @@ Window {
 
     function start()
     {
-        currentLocation = 0;
+        currentLocation = introLocationID;
         videoPlayer.init(model[currentLocation].timecode);
         videoPlayer.visible = true;
         pageLoader.source = model[currentLocation].name;
@@ -142,21 +140,13 @@ Window {
 
         pageLoader.item.clean();
 
-        if(id === 0)
+        if(id === introLocationID)
         {
             start();
         }
-        else
+        else if(model[currentLocation].name !== "")
         {
-            if(model[currentLocation].name !== "")
-            {
-              //  console.log(" start location  ", model[currentLocation].name);
-                pageLoader.source = model[currentLocation].name;
-            }
-
-
-            //videoPlayer.playTo(model[currentLocation].timecode);
-           // videoPlayer.visible = true;
+            pageLoader.source = model[currentLocation].name;
         }
 
         pageLoader.item.start();

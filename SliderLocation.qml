@@ -56,9 +56,9 @@ Item {
         }
     }
 
-   // PropertyAnimation {id: colorAnim1; target: color1; easing.type: Easing.Linear; properties: "color"; to: "0"; duration: 500}
-   // PropertyAnimation {id: colorAnim2; target: color2; easing.type: Easing.Linear; properties: "color"; to: "0"; duration: 500}
-   // PropertyAnimation {id: colorAnim3; target: color3; easing.type: Easing.Linear; properties: "color"; to: "0"; duration: 500}
+    // PropertyAnimation {id: colorAnim1; target: color1; easing.type: Easing.Linear; properties: "color"; to: "0"; duration: 500}
+    // PropertyAnimation {id: colorAnim2; target: color2; easing.type: Easing.Linear; properties: "color"; to: "0"; duration: 500}
+    // PropertyAnimation {id: colorAnim3; target: color3; easing.type: Easing.Linear; properties: "color"; to: "0"; duration: 500}
 
     PropertyAnimation {id: opacityAnim1; target: bg; properties: "opacity"; to: "1"; duration: 500}
     PropertyAnimation {id: opacityAnim2; target: view; properties: "opacity"; to: "1"; duration: 500}
@@ -75,16 +75,16 @@ Item {
 
         color:colors[0].c2;
 
-//        LinearGradient {
-//                anchors.fill: parent
-//                start: Qt.point(0, 0)
-//                end: Qt.point(0, root.height)
-//                gradient: Gradient {
-//                    GradientStop { id:color1; position: 0.0; color: "#f38917" }
-//                    GradientStop { id:color2; position: 0.0; color: "#dd6513" }
-//                    GradientStop { id:color3; position: 1.0; color: "#a33409" }
-//                }
-//            }
+        //        LinearGradient {
+        //                anchors.fill: parent
+        //                start: Qt.point(0, 0)
+        //                end: Qt.point(0, root.height)
+        //                gradient: Gradient {
+        //                    GradientStop { id:color1; position: 0.0; color: "#f38917" }
+        //                    GradientStop { id:color2; position: 0.0; color: "#dd6513" }
+        //                    GradientStop { id:color3; position: 1.0; color: "#a33409" }
+        //                }
+        //            }
     }
 
     SwipeView {
@@ -94,46 +94,52 @@ Item {
         opacity:0;
         interactive:false;
 
+        onInteractiveChanged:
+        {
+            promt.hide();
+        }
+
+
         Repeater {
-               model: slidesNum
-               Image {
-                   fillMode: Image.PreserveAspectFit
-                   source: "qrc:/images/design/slides/slide" + (index + 1) + ".png"
-                   asynchronous: true;
-                   width:root.width;
-               }
-           }
+            model: slidesNum
+            Image {
+                fillMode: Image.PreserveAspectFit
+                source: "qrc:/images/design/slides/slide" + (index + 1) + ".png"
+                asynchronous: true;
+                width:root.width;
+            }
+        }
 
         onCurrentItemChanged:
         {
-              // colorAnim1.to = colors[currentIndex].c1;
-               //colorAnim2.to = colors[currentIndex].c2;
-               //colorAnim3.to = colors[currentIndex].c3;
+            // colorAnim1.to = colors[currentIndex].c1;
+            //colorAnim2.to = colors[currentIndex].c2;
+            //colorAnim3.to = colors[currentIndex].c3;
 
-              colorAnim.stop();
-               colorAnim.to = colors[currentIndex].c2;
+            colorAnim.stop();
+            colorAnim.to = colors[currentIndex].c2;
 
-               //colorAnim1.start();
-              // colorAnim2.start();
-               //colorAnim3.start();
+            //colorAnim1.start();
+            // colorAnim2.start();
+            //colorAnim3.start();
 
-               colorAnim.start();
+            colorAnim.start();
 
-                promt.hide();
+            promt.hide();
 
-               if(slidesNum == currentIndex + 1)
-               {
-                   root.startFinishing();
-                   view.interactive = false;
-                   timerOut.running = true;
-               }
+            if(slidesNum == currentIndex + 1)
+            {
+                root.startFinishing();
+                view.interactive = false;
+                timerOut.running = true;
             }
+        }
     }
 
     Timer
     {
         id:timerOut;
-        interval: 1000;
+        interval: 1600;
         running: false;
         repeat: false
         onTriggered:

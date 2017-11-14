@@ -27,7 +27,7 @@ Item {
     {
         id:bg;
         fillMode: Image.PreserveAspectFit
-        source: "qrc:/images/design/qt_game1.png"
+        source: "qrc:/images/design/game1/qt_game1.png"
         width: root.width
         opacity:0;
     }
@@ -38,8 +38,8 @@ Item {
         fillMode: Image.PreserveAspectFit
         source: "qrc:/images/design/game1/top.png"
         width: sourceSize.width * tool.getScale();
-        x:coords[0].x10
-        y:coords[0].y10;
+        x:coords[1].x10
+        y:coords[1].y10;
         opacity:0;
         transform: Rotation {id: rot1;  angle: -4.8; origin.x:top.width*0.5; origin.y: top.height*0.5;}
     }
@@ -50,8 +50,8 @@ Item {
         fillMode: Image.PreserveAspectFit
         source: "qrc:/images/design/game1/mid.png"
         width: sourceSize.width * tool.getScale();
-        x:coords[0].x20;
-        y:coords[0].y20;
+        x:coords[1].x20;
+        y:coords[1].y20;
         opacity:0;
         transform: Rotation {id: rot2;  angle: -4.8; origin.x:middle.width*0.5; origin.y: middle.height*0.5;}
     }
@@ -62,8 +62,8 @@ Item {
         fillMode: Image.PreserveAspectFit
         source: "qrc:/images/design/game1/bot.png"
         width: sourceSize.width * tool.getScale();
-        x:coords[0].x30;
-        y:coords[0].y30;
+        x:coords[1].x30;
+        y:coords[1].y30;
         opacity:0;
         transform: Rotation {id: rot3;  angle: -4.8; origin.x:bot.width*0.5; origin.y: bot.height*0.5;}
     }
@@ -92,8 +92,7 @@ Item {
 
     function finish()
     {
-
-       tilt.active = false;
+        tilt.active = false;
         state = 2;
         var secs = 200;
         startAnimations(coords[1], secs);
@@ -217,7 +216,7 @@ Item {
 //            rot2Anim.start();
 //            rot3Anim.start();
 
-       startAnimations(coords[2], 1500);
+       startAnimations(coords[2], 500);
     }}
 
     PropertyAnimation {id: opacityAnim2; target: middle; properties: "opacity"; to: "1"; duration: 500}
@@ -230,6 +229,7 @@ Item {
                                                                                                 if(state == 1)
                                                                                                 {
                                                                                                      tilt.active = true;
+                                                                                                     rotSensor.active = true;
                                                                                                      startAngleFixed = false;
                                                                                                      angleAnimDuration = 100;
                                                                                                      state = 3;
@@ -239,6 +239,7 @@ Item {
                                                                                                     root.startFinishing();
                                                                                                     timerOut.running = true;
                                                                                                     tilt.active = false;
+                                                                                                    rotSensor.active = false;
                                                                                                     state = -1;
                                                                                                 }
                                                                                             }
@@ -250,13 +251,10 @@ Item {
     PropertyAnimation{id:y2Anim; target: middle; properties: "y"; to: coords[1].y20; duration: outAnimDuration}
     PropertyAnimation{id:y3Anim; target: bot; properties: "y"; to: coords[1].y30; duration: outAnimDuration}
 
-
     property real angleAnimDuration:100;
     PropertyAnimation{id:rot1Anim; target: rot1; properties: "angle"; to:0; duration: angleAnimDuration}
     PropertyAnimation{id:rot2Anim; target: rot2; properties: "angle"; to:0; duration: angleAnimDuration}
     PropertyAnimation{id:rot3Anim; target: rot3; properties: "angle"; to:0; duration: angleAnimDuration}
-
-
 
     property real angle: -4.8;
     property real angleEnd: -4.8;
@@ -271,7 +269,7 @@ Item {
     {
         id: tilt
         active: false;
-        dataRate: 100;
+        dataRate: 30;
         skipDuplicates:true;
 
         onReadingChanged:
@@ -279,54 +277,42 @@ Item {
             var xRot = tilt.reading.xRotation.toFixed(0);
             var yRot = tilt.reading.yRotation.toFixed(0);
 
-           // gyro.text = yRot + " start angle "+ startAngle + " direction " + direction + " diff " + (yRotPrev - yRot);
 
-            if(xRotPrev != xRot)
+            if(xRotPrev !== xRot)
                 rotate(xRot);
             xRotPrev = xRot;
 
-            if(!startAngleFixed)
-            {
-               // calibrate()
+//            if(!startAngleFixed)
+//            {
+//               // calibrate()
 
-                startAngleFixed = true;
-                startAngle = yRot;
-                xRotPrev = xRot;
-                yRotPrev = yRot;
+//                startAngleFixed = true;
+//                startAngle = yRot;
+//                xRotPrev = xRot;
+//                yRotPrev = yRot;
+//            }
 
-            }
-
-            if(direction == "down")
-            {
-               if(yRotPrev - yRot > 5)
-               {
-                   direction = "up";
-                   yRotPrev = yRot;
-               }
-            }
-            else if(direction == "up")
-            {
-               if(yRotPrev - yRot < -5)
-               {
-                   direction = "down";
-                   yRotPrev = yRot;
-               }
-            }
-
-            if(yRot > 0)//direction == "down")
-            {
-                moveDown();
-            }
-            else
-            {
-                moveUp();
-            }
-
-           // yRotPrev = yRot;
+//            if(direction == "down")
+//            {
+//               if(yRotPrev - yRot > 5)
+//               {
+//                   direction = "up";
+//                   yRotPrev = yRot;
+//               }
+//            }
+//            else if(direction == "up")
+//            {
+//               if(yRotPrev - yRot < -5)
+//               {
+//                   direction = "down";
+//                   yRotPrev = yRot;
+//               }
+//            }
 
             if(checkCond())
             {
                 tilt.active = false;
+                rotSensor.active = false;
                 ready = true;
                 state = 2;
                 finish();
@@ -334,42 +320,62 @@ Item {
         }
     }
 
-    Accelerometer
+
+
+    property real yRotOld:0;
+    property real calibrateAngle: -900;
+    property bool isCalibrateAngleSet: false;
+
+    RotationSensor
     {
-        id:accel;
-        active: true;
-        dataRate: 100;
+        id: rotSensor
+        active: false;
+        dataRate:5;
         onReadingChanged:
         {
-            var roll = calcRoll(accel.reading.x, accel.reading.y, accel.reading.z);
-            var pitch = calcPitch(accel.reading.x, accel.reading.y, accel.reading.z);
+            var yRot = rotSensor.reading.y.toFixed(0);
+            var diff = yRot - yRotOld;
 
-           // gyro.text = " roll  "+ roll + " pitch " + pitch;
+            if(!isCalibrateAngleSet)
+            {
+                isCalibrateAngleSet = true;
+                calibrateAngle = yRot;
+               // moveUp(180);//-60
+                //moveDown(60);
+            }
+
+            var diffCalibrate = yRot - calibrateAngle;
+           console.log("diffCalibrate  ", diffCalibrate);
+
+            if(diffCalibrate > 1)
+            {
+               var moveF = tool.map(diffCalibrate, -60, 0, 0, 180);
+              // console.log("moveF  ", moveF);
+               moveDown(20);
+            }
+            else if(diffCalibrate < -1)
+            {
+                var moveF1 = tool.map(diffCalibrate, 0, 60, 0, 60);
+
+                moveUp(40);
+            }
+
+            yRotOld = yRot;
         }
     }
 
-    function calcPitch(x,y,z) {
-            return -(Math.atan(y / Math.sqrt(x * x + z * z)) * 57.2957795);
-        }
-        function calcRoll(x,y,z) {
-             return -(Math.atan(x / Math.sqrt(y * y + z * z)) * 57.2957795);
-        }
-
-
-    property int moveFactor: 10;
-    function moveUp()
+    function moveUp(factor)
     {
-        var sign2 = moveFactor;
+        var sign2 = factor;
         var factor2 = 2.2;
         var factor3 = 1.8;
 
         if(middle.y + sign2 * Math.sin(angle) < 290 || middle.y + sign2 * Math.sin(angle) > 600)
             return;
 
-
-        startAnimationsTo(100,
-                   middle.x+sign2 * Math.cos(angle),
-                   middle.y+ sign2 * Math.sin(angle),
+        startAnimationsTo(300,
+                   middle.x + sign2 * Math.cos(angle),
+                   middle.y + sign2 * Math.sin(angle),
                    top.x+ factor2*sign2 * Math.cos(angle),
                    top.y+ factor2*sign2 * Math.sin(angle),
                    bot.x- factor3*sign2 * Math.cos(angle),
@@ -377,15 +383,15 @@ Item {
                           )
     }
 
-    function moveDown()
+    function moveDown(factor)
     {
         var factor2 = 2.2;
         var factor3 = 1.8;
-        var sign2 = -moveFactor;
+        var sign2 = -factor;
        if(middle.y + sign2 * Math.sin(angle) < 290 || middle.y + sign2 * Math.sin(angle) > 600)
            return;
 
-       startAnimationsTo(100,
+       startAnimationsTo(300,
                   middle.x+sign2 * Math.cos(angle),
                   middle.y+ sign2 * Math.sin(angle),
                   top.x+ factor2*sign2 * Math.cos(angle),
@@ -411,7 +417,7 @@ Item {
 
     function checkCond()
     {
-        return middle.x > 373 && middle.x < 374.5 && rot1.angle > -6 && rot1.angle < -3 && !ready;
+        return middle.x > 372 && middle.x < 376 && rot1.angle > -11 && rot1.angle < 0 && !ready;
     }
 
     Tools

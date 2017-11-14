@@ -23,14 +23,14 @@ Item {
         id:promt;
         fillMode: Image.PreserveAspectFit
         width:200;
-        source:"qrc:/images/design/Capsule.png"
+        source:"qrc:/images/design/game2/Capsule.png"
         Button
         {
             width:promt.width*1.5;
             height:promt.height*3;
-            opacity: .4;
-            x:(promt.width - width)*0.5;
-            y:(promt.height - height)*0.5;
+            opacity: .0;
+            x:(promt.width - width) * 0.5;
+            y:(promt.height - height) * 0.5;
             onClicked:
             {
                 timer.running = false;

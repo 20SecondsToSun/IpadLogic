@@ -9,16 +9,20 @@ Item {
     signal startFinishing();
 
     property int size: 150;
-    property int numToKill: 2;
+    property int numToKill: 3;
     property int killCont:0;
-    property int side: 0;
-    property int sidesNum: 4;
+    property int side:0;
+    property int sidesNum:4;
+
+    property  int  timeForFinish: 100
+    property  int  timeForStart: 2000
+    property  int  timeForSpawn: 1000
 
     Image
     {
         id:bg;
         fillMode: Image.PreserveAspectFit
-        source: "qrc:/images/design/qt_game2.png"
+        source: "qrc:/images/design/game2/qt_game2.png"
         width: root.width
         opacity:0;
     }
@@ -36,19 +40,23 @@ Item {
     }
 
     PropertyAnimation {id: opacityAnim; target: bg; properties: "opacity"; to: "1"; duration: 500}
+    PropertyAnimation {id: canvasAnim; target: canvas; properties: "opacity"; to: "0"; duration: 500;
+        onStopped:
+        {
+            timerOut.start();
+        }}
 
 
     function clean()
     {
-       timer.running = false;
-       timerForStart.running = false;
-       promt.hide();
+        timer.running = false;
+        timerForStart.running = false;
+        promt.hide();
     }
 
     function start()
     {
         timerForStart.running = true;
-        timer.running = true;
     }
 
     function finish()
@@ -57,6 +65,7 @@ Item {
         gameFinished(gameId);
     }
 
+
     function spawnObjects()
     {
         var component = Qt.createComponent("Capsule.qml");
@@ -64,11 +73,24 @@ Item {
 
         var id = (side++) % sidesNum;
         sprite.start(id);
-  }
+    }
 
     function onKilled()
     {
-        if(++killCont > numToKill)
+        if(++killCont >= numToKill)
+        {
+            timer.running = false;
+            canvasAnim.start();
+        }
+    }
+
+    Timer
+    {
+        id:timerOut;
+        interval: timeForFinish;
+        running: false;
+        repeat: false;
+        onTriggered:
         {
             finish();
         }
@@ -77,26 +99,26 @@ Item {
     Timer
     {
         id:timerForStart;
-        interval: 2500;
+        interval: timeForStart;
         running: false;
         repeat: false;
         onTriggered:
         {
             opacityAnim.start();
-            killCont = 0;
             promt.show(gameId);
+            timer.running = true;
         }
     }
 
     Timer
     {
         id:timer;
-        interval: 1500;
+        interval: timeForSpawn;
         running: false;
         repeat: true;
         onTriggered:
         {
-          spawnObjects();
+            spawnObjects();
         }
     }
 }

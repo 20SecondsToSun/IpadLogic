@@ -10,8 +10,8 @@ Item {
     property int gameId:4;
     property int timecodeForStart: 2300;
     property int clickNum:0;
-    property int clickToWin:3;
-    property int widthIncrement: 150;
+    property int clickToWin:4;
+    property int widthIncrement: 120;
     property int startWidth: 1;
     property int endWidth: 595;
     property int currentWIdth: 0;
@@ -36,7 +36,7 @@ Item {
         id:splash;
         fillMode: Image.PreserveAspectFit
         width:root.width;
-        source:"qrc:/images/design/game4Overlay.png"
+        source:"qrc:/images/design/game4/game4Overlay.png"
         opacity:0;
     }
 
@@ -125,7 +125,7 @@ Item {
     Timer
     {
         id:onOutTimer;
-        interval: 1000;
+        interval: 900;
         running: false;
         repeat: false;
         onTriggered:
@@ -146,14 +146,13 @@ Item {
             opacityAnim.start();
             splashOpacityAnim.start();
             promt.show(gameId);
-            //splash.opacity = 1;
         }
     }
 
     Timer
     {
         id:timer;
-        interval: 500;
+        interval: 700;
         running: false;
         repeat: false;
         onTriggered:
@@ -161,7 +160,6 @@ Item {
             if(!lastClick)
             {
                 clickNum = 0;
-                //startAnimation(startWidth, 300);
             }
         }
     }
@@ -187,5 +185,4 @@ Item {
     {
         id:tool;
     }
-
 }

@@ -1,13 +1,6 @@
 <RCC>
     <qresource prefix="/images">
-        <file>design/1.png</file>
         <file>design/final.jpg</file>
-        <file>design/game2.jpg</file>
-        <file>design/game3.jpg</file>
-        <file>design/game4.jpg</file>
-        <file>design/Capsule.png</file>
-        <file>design/Fluid.png</file>
-        <file>design/homeButton.png</file>
         <file>design/slides/slide1.png</file>
         <file>design/slides/slide2.png</file>
         <file>design/slides/slide3.png</file>
@@ -20,22 +13,20 @@
         <file>design/promts/promt3.png</file>
         <file>design/promts/promt4.png</file>
         <file>design/promts/promt5.png</file>
-        <file>design/empty.png</file>
         <file>design/slides/slide8.png</file>
         <file>design/game1/bot.png</file>
         <file>design/game1/mid.png</file>
         <file>design/game1/top.png</file>
-        <file>design/game3/Check2.png</file>
         <file>design/game3/Fluid1.png</file>
-        <file>design/game3Overlay.png</file>
-        <file>design/game4Overlay.png</file>
         <file>design/WhiteBGimg.png</file>
-        <file>design/slides/slide9.png</file>
-        <file>design/mainvid.mp4</file>
-        <file>design/end.mp4</file>
-        <file>design/qt_game1.png</file>
-        <file>design/qt_game2.png</file>
         <file>design/qt_intro.png</file>
-        <file>design/qt_Game3_Liquid.png</file>
+        <file>design/game3/qt_liqud_off.png</file>
+        <file>design/game3/qt_liqud_on.png</file>
+        <file>design/menu/homeButton.png</file>
+        <file>design/game1/qt_game1.png</file>
+        <file>design/game2/qt_game2.png</file>
+        <file>design/game4/game4Overlay.png</file>
+        <file>design/game2/Capsule.png</file>
+        <file>design/mainvid.mp4</file>
     </qresource>
 </RCC>

@@ -13,7 +13,7 @@ Item {
     Image {
         id:homeimg
         fillMode: Image.PreserveAspectFit
-        source: "qrc:/images/design/homeButton.png"
+        source: "qrc:/images/design/menu/homeButton.png"
         asynchronous: true;
         anchors.top: root.top;
         anchors.right: root.right;
@@ -23,24 +23,24 @@ Item {
     }
 
     Button {
-           onClicked: root.homeClick()
-           anchors.top: root.top;
-           anchors.right: root.right;
-           anchors.rightMargin: 65* tool.getScale();
-           anchors.topMargin: 65* tool.getScale();
-           width:homeimg.width;
-           height:homeimg.height;
-           opacity:0;
-       }
+        onClicked: root.homeClick()
+        anchors.top: root.top;
+        anchors.right: root.right;
+        anchors.rightMargin: 65* tool.getScale();
+        anchors.topMargin: 65* tool.getScale();
+        width:homeimg.width;
+        height:homeimg.height;
+        opacity:0;
+    }
     Row{
 
-    Button
-    {
-           width:200;
-           height:200;
-           opacity: 0.0;
-           onClicked: root.skipClick();
-       }
+        Button
+        {
+            width:200;
+            height:200;
+            opacity: 0.0;
+           // onClicked: root.skipClick();
+        }
     }
 
     Tools{
