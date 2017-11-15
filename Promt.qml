@@ -15,7 +15,7 @@ Item
         {name:"qrc:/images/design/promts/promt2.png", x: 1400, y :792},
         {name:"qrc:/images/design/promts/promt3.png", x: 800,  y :848},
         {name:"qrc:/images/design/promts/promt4.png", x: 1280, y :400},
-        {name:"qrc:/images/design/promts/promt5.png", x: 670,  y :1070},
+        {name:"qrc:/images/design/promts/promt5.png", x: 670,  y :1220},
         {name:"", x: 100, y :200}
     ];
 

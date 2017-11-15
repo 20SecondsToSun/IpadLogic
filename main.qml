@@ -13,6 +13,7 @@ Window {
 
     property int introLocationID:0;
     property int finalLocationID:7;
+    property bool needLoading:false;
 
     property var model :
         [
@@ -29,19 +30,48 @@ Window {
     Connections {
         target: Qt.application
         onStateChanged: {
+           // console.log("state   ", Qt.application.state);
             if(Qt.application.state === Qt.ApplicationActive)
             {
-                if(wasSleep && currentLocation == introLocationID)
+               // console.log("active   ", currentLocation, videoPlayer.printPosition());
+                if(wasSleep)// && currentLocation != 0)
                 {
+                    if(currentLocation == 0)
+                        waitTimer.running = true;
+
                     wasSleep = false;
                     pageLoader.item.clean();
                     start();
+
+                    if(currentLocation == 0)
+                         needLoading = false;
+
+
                 }
             }
-            else
+            else if(Qt.application.state === 0)
             {
-                wasSleep = true;
+                //console.log("sleep   ", currentLocation, videoPlayer.printPosition());
+                //if(currentLocation != 0)
+                {
+                    videoPlayer.pause();
+                    wasSleep = true;
+                }
             }
+        }
+    }
+
+    Timer
+    {
+        id:waitTimer;
+        interval: 1500;
+        running: false;
+        repeat: false;
+        onTriggered:
+        {
+            videoPlayer.init(model[0].timecode);
+            videoPlayer.visible = true;
+            pageLoader.item.start();
         }
     }
 
@@ -53,11 +83,6 @@ Window {
         {
             playVideo();
         }
-    }
-
-    Component.onCompleted:
-    {
-        console.log("onCompleted");
     }
 
     Image
@@ -92,13 +117,22 @@ Window {
         width:parent.width;
         height:parent.height;
         opacity:1.
+        onLoaded:
+        {
+            console.log("Loaded ....... LOCATION")
+            if(needLoading)
+            {
+                needLoading = false;
+                videoPlayer.init(model[0].timecode);
+                videoPlayer.visible = true;
+                pageLoader.item.start();
+            }
+        }
     }
 
     function playVideo()
     {
         currentLocation++;
-        console.log("currentLocation ----------  ", currentLocation);
-        videoPlayer.seekTo(model[currentLocation].seek);
         videoPlayer.playTo(model[currentLocation].timecode);
         videoPlayer.visible = true;
         canInteract = false;
@@ -123,21 +157,19 @@ Window {
         }
     }
 
+
     function start()
     {
+        needLoading = true;
         currentLocation = introLocationID;
-        videoPlayer.init(model[currentLocation].timecode);
-        videoPlayer.visible = true;
         pageLoader.source = model[currentLocation].name;
         canInteract = false;
-        pageLoader.item.start();
     }
 
     function nextLocation(id)
     {
         currentLocation = id;
         canInteract = false;
-
         pageLoader.item.clean();
 
         if(id === introLocationID)

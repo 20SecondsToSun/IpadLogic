@@ -93,6 +93,7 @@ Item {
     function finish()
     {
         tilt.active = false;
+        rotSensor.active = false;
         state = 2;
         var secs = 200;
         startAnimations(coords[1], secs);
@@ -345,7 +346,7 @@ Item {
             }
 
             var diffCalibrate = yRot - calibrateAngle;
-           console.log("diffCalibrate  ", diffCalibrate);
+           //console.log("diffCalibrate  ", diffCalibrate);
 
             if(diffCalibrate > 1)
             {

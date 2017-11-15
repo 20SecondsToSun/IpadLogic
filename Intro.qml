@@ -8,6 +8,8 @@ Item {
      signal gameFinished(int id);
      signal startFinishing();
 
+     property int timeForStart:1100;
+
     Image
     {
         id:bg;
@@ -35,11 +37,14 @@ Item {
     function clean()
     {
        timerForStart.running = false;
+       bg.opacity = 0;
     }
 
     function start()
     {
+        console.log("INTRO START");
         timerForStart.running = true;
+
     }
 
     function finish()
@@ -51,7 +56,7 @@ Item {
     Timer
     {
         id:timerForStart;
-        interval: 1100;
+        interval: timeForStart;
         running: false;
         repeat: false;
         onTriggered:

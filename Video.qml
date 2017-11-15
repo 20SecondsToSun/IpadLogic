@@ -37,6 +37,11 @@ Item {
         opacity:1.
 
     }
+    function pause()
+    {
+       video.pause();
+       timer.running = false;
+    }
 
     function init(ms)
     {
@@ -50,12 +55,11 @@ Item {
 
     function seekTo(ms)
     {
-        if(ms === -1)
-            return;
-
-
-        video.pause();
-        video.seek(ms);
+        if(ms !== -1)
+        {
+            video.pause();
+            video.seek(ms);
+        }
     }
 
     function playTo(ms)
@@ -68,6 +72,11 @@ Item {
             console.log("timer.interval  " + timer.interval);
             video.play();
         }
+    }
+
+    function printPosition()
+    {
+         console.log("position: "+ video.position);
     }
 
     Timer {

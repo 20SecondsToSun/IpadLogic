@@ -32,6 +32,8 @@ Item {
         height:homeimg.height;
         opacity:0;
     }
+    property int clickCount:0;
+    property int clickMax:3;
     Row{
 
         Button
@@ -39,7 +41,14 @@ Item {
             width:200;
             height:200;
             opacity: 0.0;
-           // onClicked: root.skipClick();
+            onClicked:
+            {
+                if(++clickCount > clickMax)
+                {
+                    clickCount = 0;
+                    root.skipClick();
+                }
+            }
         }
     }
 
